@@ -10,11 +10,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { MarkersContext } from '../../providers/MapMarkersProvider/index';
 
-export const ActionsBar = () => {
+export const ActionsBar = ({showAlert}) => {
   const [openModal, setOpenModal] = useState(null)
   return <div className={style.actionsBar}>
-    <FoundModal isOpen={openModal === 'found'} handleClose={() => setOpenModal(null)}/>
-    <LostModal isOpen={openModal === 'lost'} handleClose={() => setOpenModal(null)}/>
+    <FoundModal showAlert={showAlert} isOpen={openModal === 'found'} handleClose={() => setOpenModal(null)}/>
+    <LostModal showAlert={showAlert} isOpen={openModal === 'lost'} handleClose={() => setOpenModal(null)}/>
 <ButtonGroup variant="contained" color="primary" aria-label="outlined primary button group">
   <Button onClick={() => {
     setOpenModal('found')
@@ -52,17 +52,17 @@ export  const TransitionsModal =({isOpen, handleClose, children = ''}) => {
   );
 }
 
-const FoundModal = ({isOpen, handleClose}) =>  <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
-    <ItemForm title={'Found Something'} type={'found'} handleClose={handleClose}/>
+const FoundModal = ({isOpen, handleClose,showAlert}) =>  <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
+    <ItemForm showAlert={showAlert} title={'Found Something'} type={'found'} handleClose={handleClose}/>
   </TransitionsModal>
 
 
-const LostModal = ({isOpen, handleClose}) =>  <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
-    <ItemForm title={'Lost Something'} type={'lost'} handleClose={handleClose}/>
+const LostModal = ({isOpen, handleClose,showAlert}) =>  <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
+    <ItemForm  showAlert={showAlert}title={'Lost Something'} type={'lost'} handleClose={handleClose}/>
   </TransitionsModal>
 
 
-const ItemForm = ({type, handleClose, title}) => {
+const ItemForm = ({type, handleClose, title,showAlert}) => {
   const {enableDraggableMarker,disableDraggableMarker, addMarker, initialPosition, draggableMarkerPosition} = useContext(MarkersContext)
   const [useCurrentLocation, setUseCurrentLocation] = useState(draggableMarkerPosition ? false :true)
   const [name, setName] = React.useState('');
@@ -106,13 +106,14 @@ const ItemForm = ({type, handleClose, title}) => {
       multiline
     />
     <div className={style.btns}>
-     <Button onClick={() => {
+     <Button onClick={async () => {
        if(name && description) {
-        addMarker({name, description, type,position: useCurrentLocation ? initialPosition : draggableMarkerPosition})
+        await addMarker({name, description, type,position: useCurrentLocation ? initialPosition : draggableMarkerPosition})
+        showAlert({msg:'Entry created successfully!',type:'success'})
         resetForm()
         handleClose()
        } else {
-         alert('name and description are mandatory fields')
+        showAlert({msg:'Name and description are mandatory fields!',type:'error'})
        }
 
        

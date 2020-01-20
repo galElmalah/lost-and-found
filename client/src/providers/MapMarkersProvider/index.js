@@ -1,5 +1,5 @@
 import React,{createContext, useState, useEffect,useRef} from 'react'
-
+import axios from 'axios';
 export const MarkersContext = createContext();
 
 export const MarkersProvider = ({children}) => {
@@ -9,22 +9,6 @@ export const MarkersProvider = ({children}) => {
 
   const refmarker = useRef()
 
-  const  enableDraggableMarker = () => {
-    const [lat,lan]= initialPosition
-    setDraggableMarker([lat + 0.01,lan + 0.01])
-  }
-
-  const  disableDraggableMarker = () => {
-    const [lat,lan]= initialPosition
-    setDraggableMarker(null)
-  }
-
-  const updateDraggableMarker = (e) => {
-    const marker = refmarker.current
-    if (marker != null) {
-      setDraggableMarker(marker.leafletElement.getLatLng())
-    }
-  }
 
   useEffect(() => {
     if(navigator.geolocation) {
@@ -35,8 +19,30 @@ export const MarkersProvider = ({children}) => {
     }
   }, []) 
 
-  const addMarker = (marker) => {
-    setMarkers(_markers => [..._markers,marker])
+  useEffect(() => {
+    axios.get('http://localhost:3001/items').then(({data}) => setMarkers(data))
+  }, []) 
+  
+  const  enableDraggableMarker = () => {
+    const [lat,lan]= initialPosition
+    setDraggableMarker([lat + 0.01,lan + 0.01])
+  }
+
+  const  disableDraggableMarker = () => {
+    setDraggableMarker(null)
+  }
+
+  const updateDraggableMarker = (e) => {
+    const marker = refmarker.current
+    if (marker != null) {
+      setDraggableMarker(marker.leafletElement.getLatLng())
+    }
+  }
+
+
+
+  const addMarker =  (marker) => {
+    return axios.post('http://localhost:3001/items', {item:marker}).then(({data}) => setMarkers(_markers => [..._markers,{...marker,id:data.id}]))
   }
 
   const removeMarker = (id) => {
