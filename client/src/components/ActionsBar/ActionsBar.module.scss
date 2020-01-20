@@ -1,0 +1,39 @@
+.actionsBar {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 50%;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: 0 !important;
+}
+
+.modalContent {
+  border-radius: 8px;
+  outline: 0 !important;
+  height: fit-content;
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+  background: white;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.btns {
+  margin-top: 20px;
+}
