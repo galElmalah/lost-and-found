@@ -7,26 +7,26 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
-export  function CustomizedSnackbar({open,setOpen}) {
-
-
+export function CustomizedSnackbar({ open, setOpen }) {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
-    setOpen({msg:null});
+    setOpen({ msg: null });
   };
-console.log(open)
+  console.log(open);
   return (
-    <div >
-      <Snackbar 
-              anchorOrigin={{ vertical:"top", horizontal:"right" }}
-
-      open={open.msg !== null} autoHideDuration={6000} onClose={handleClose}>
+    <div>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={open.msg !== null}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
         <Alert onClose={handleClose} severity={open.type}>
           {open.msg}
         </Alert>
@@ -36,13 +36,13 @@ console.log(open)
 }
 
 function App() {
-  const [open, setOpen] = React.useState({msg:null});
+  const [open, setOpen] = React.useState({ msg: null });
 
   return (
-    <div className="App">
-      <CustomizedSnackbar open={open} setOpen={setOpen}/>
-      <ActionsBar showAlert={setOpen}/>
-      <Map/>
+    <div className='App'>
+      <CustomizedSnackbar open={open} setOpen={setOpen} />
+      <ActionsBar showAlert={setOpen} />
+      <Map />
     </div>
   );
 }

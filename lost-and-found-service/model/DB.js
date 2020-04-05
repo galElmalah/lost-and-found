@@ -23,6 +23,7 @@ const db = [{
   description: 'some red keys',
   position: [31.9, 34.6899093]
 }]
+
 module.exports = class DB {
 
   static async getById(id) {
