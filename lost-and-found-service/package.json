@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "seed": "node ./model/seed",
-    "local": "npm run seed && npm run start",
+    "local": "npm run seed && env NODE_ENV=development npm run start",
     "start": "nodemon app.js"
   },
   "dependencies": {
