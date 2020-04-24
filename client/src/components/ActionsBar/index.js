@@ -108,7 +108,7 @@ const ItemForm = ({type, handleClose, title,showAlert}) => {
     <div className={style.btns}>
      <Button onClick={async () => {
        if(name && description) {
-        await addMarker({name, description, type,position: useCurrentLocation ? initialPosition : draggableMarkerPosition})
+        await addMarker({name, description, type,location: useCurrentLocation ? initialPosition : draggableMarkerPosition})
         showAlert({msg:'Entry created successfully!',type:'success'})
         resetForm()
         handleClose()

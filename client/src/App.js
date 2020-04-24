@@ -18,7 +18,7 @@ export function CustomizedSnackbar({ open, setOpen }) {
 
     setOpen({ msg: null });
   };
-  console.log(open);
+  
   return (
     <div>
       <Snackbar

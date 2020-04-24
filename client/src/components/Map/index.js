@@ -6,7 +6,7 @@ import { MarkersContext } from '../../providers/MapMarkersProvider/index';
 
 export const Map = () => {
   const {initialPosition, markers,draggableMarkerPosition,updateDraggableMarker,refmarker} = useContext(MarkersContext)
-  
+    
   return <div style={{height:'100vh'}}>
   <LeafletMap className={style.map} center={draggableMarkerPosition || initialPosition} zoom={12}>
     <TileLayer
@@ -28,7 +28,7 @@ export const Map = () => {
   </div>
 }
 
-const CustomMarker =({position,name,description, type,id}) => <Marker key={id} position={position}>
+const CustomMarker =({location,name,description, type,id}) => <Marker key={id} position={location}>
 <Popup>
   <span className={style.popoverContainer}>
   <h4>Type:</h4>

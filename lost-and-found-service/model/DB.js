@@ -1,21 +1,15 @@
 const mongoose = require('mongoose');
-const {MapEntryModel} = require('./MapEntryModel')
-const db = [];
+const {MapEntriesDb} = require('./DBs/MapEntriesDb')
+const {UsersDb} = require('./DBs/UsersDb')
+
 module.exports = class DB {
 
-  static async getById(id) {
-    return db.find(entry => entry.id === id)
+  static mapEntries() {
+    return MapEntriesDb
   }
-
-  static async getAll() {
-    console.log(MapEntryModel)
-    return MapEntryModel.find({})
-  }
-
-  static async add(item) {
-    console.log({item})
-    const mapEntry = new MapEntryModel(item)
-    return mapEntry.save()
+  
+  static users() {
+    return UsersDb
   }
 
   static async connect({port,user,password}) {
