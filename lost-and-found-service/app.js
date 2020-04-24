@@ -24,7 +24,8 @@ DB.connect({
   username: config.db.user,
   password: config.db.password,
 }).then(() =>
+
   app.listen(config.server.port, () =>
     console.log(`Server listening on port ${config.server.port}!`),
   ),
-);
+).catch(console.error);

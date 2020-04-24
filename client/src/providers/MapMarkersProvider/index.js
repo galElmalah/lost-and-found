@@ -19,11 +19,11 @@ export const MarkersProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    setInterval(() => {
+
       axios
         .get('http://localhost:3001/items')
         .then(({ data }) => setMarkers(data));
-    }, 30000);
+
   }, []);
 
   const enableDraggableMarker = () => {
