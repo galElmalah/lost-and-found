@@ -4,16 +4,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { MarkersProvider } from './providers/MapMarkersProvider';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 
 // '/' -> login page - if logged in then go to '/map'
-// '/map' -> map component 
+// '/map' -> map component
 
 ReactDOM.render(
-  <MarkersProvider>
-    <App />
-  </MarkersProvider>,
-  document.getElementById('root'),
+  <Router>
+    <MarkersProvider>
+      <App />
+    </MarkersProvider>
+  </Router>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
