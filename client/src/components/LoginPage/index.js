@@ -5,11 +5,10 @@ import { UserDetailsContext } from '../../providers/UserDetailsProvider/index';
 import { useHistory } from 'react-router';
 import { Redirect } from 'react-router-dom';
 
-
 export const LoginPage = () => {
   const { userDetails, setUserDetails } = React.useContext(UserDetailsContext);
   const history = useHistory();
-
+  console.log(userDetails);
   const responseGoogle = (response) => {
     setUserDetails(response.profileObj);
     history.push('/map');
@@ -18,6 +17,7 @@ export const LoginPage = () => {
   if (userDetails.name) {
     return <Redirect to="/map" />;
   }
+
   return (
     <Container maxWidth="sm">
       <p>Login via your google account</p>
@@ -25,7 +25,7 @@ export const LoginPage = () => {
         clientId="1034938527427-ka0dtgorj5rgot11oofffp7l5v74rp9c.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={responseGoogle}
-        onFailure={responseGoogle}
+        onFailure={console.error}
         cookiePolicy={'single_host_origin'}
       />
     </Container>

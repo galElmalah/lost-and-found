@@ -17,7 +17,7 @@ const getEndpoint = (endpoint, method, userId) => {
   return url;
 };
 
-const dataMixer = (optionsData, userDetails) =>
+const dataMixer = (optionsData, userDetails = {}) =>
   userDetails.name ? { ...optionsData, user: userDetails } : optionsData;
 
 export const useApi = (endpoint, options = defaultOptions) => {
