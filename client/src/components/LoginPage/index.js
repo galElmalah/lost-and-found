@@ -11,7 +11,7 @@ export const LoginPage = () => {
     <Container maxWidth="sm">
       <p>Login via your google account</p>
       <GoogleLogin
-        clientId="496365561514-sniul99m71tfo5of9ic00griog2ff8me.apps.googleusercontent.com"
+        clientId="1034938527427-ka0dtgorj5rgot11oofffp7l5v74rp9c.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
