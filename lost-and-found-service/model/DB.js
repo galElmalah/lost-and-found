@@ -1,20 +1,19 @@
 const mongoose = require('mongoose');
-const {MapEntriesDb} = require('./DBs/MapEntriesDb')
-const {UsersDb} = require('./DBs/UsersDb')
+const { MapEntriesDb } = require('./DBs/MapEntriesDb');
+const { UsersDb } = require('./DBs/UsersDb');
 
 module.exports = class DB {
-
   static mapEntries() {
-    return MapEntriesDb
+    return MapEntriesDb;
   }
-  
+
   static users() {
-    return UsersDb
+    return UsersDb;
   }
 
-  static connect({port,user,password}) {
-    return mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
+  static connect({ port, user, password }) {
+    return mongoose.connect('mongodb://localhost/test', {
+      useNewUrlParser: true,
+    });
   }
-
-}
-
+};
