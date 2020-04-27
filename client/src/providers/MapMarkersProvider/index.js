@@ -1,29 +1,29 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { useApi } from '../../customHooks/useApi';
 export const MarkersContext = createContext();
 
 export const MarkersProvider = ({ children }) => {
-  const [markers, setMarkers] = useState([]);
   const [initialPosition, setInitialPosition] = useState([0, 0]);
   const [draggableMarkerPosition, setDraggableMarker] = useState(null);
 
+  const { data: markers, setData: setMarkers } = useApi('/items', {
+    initialData: [],
+  });
+
+  
+  const { callApi } = useApi('/items', {
+    method: 'post',
+    invokeManually: true,
+  });
   const refmarker = useRef();
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+      navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         setInitialPosition([latitude, longitude]);
       });
     }
-  }, []);
-
-  useEffect(() => {
-
-      axios
-        .get('http://localhost:3001/items')
-        .then(({ data }) => setMarkers(data));
-
   }, []);
 
   const enableDraggableMarker = () => {
@@ -35,23 +35,22 @@ export const MarkersProvider = ({ children }) => {
     setDraggableMarker(null);
   };
 
-  const updateDraggableMarker = e => {
+  const updateDraggableMarker = (e) => {
     const marker = refmarker.current;
     if (marker != null) {
       setDraggableMarker(marker.leafletElement.getLatLng());
     }
   };
 
-  const addMarker = marker => {
-    return axios
-      .post('http://localhost:3001/items', { item: marker })
-      .then(({ data }) =>
-        setMarkers(_markers => [..._markers, { ...marker, id: data.id }]),
-      );
+  const addMarker = (marker) => {
+    return callApi({ item: marker }).then((data) => {
+      console.log('data');
+      setMarkers((_markers) => [..._markers, { ...marker, id: data.id }]);
+    });
   };
 
-  const removeMarker = id => {
-    setMarkers(_markers => _markers.filter(marker => marker.id !== id));
+  const removeMarker = (id) => {
+    setMarkers((_markers) => _markers.filter((marker) => marker.id !== id));
   };
 
   return (

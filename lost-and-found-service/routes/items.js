@@ -1,18 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const { extractUserDetails } = require('../middlewares/extractUserDetails');
 const DB = require('../model/DB');
-const verifyLogin = (req, res, next) => {
-  console.log(process.env);
-  if (process.env.NODE_ENV === 'development') {
-    return next();
-  }
 
-  const token = req.something; // pass the token here somewhow
-  console.log('decode token and verify something');
-  req.userId = email;
-  // if logged in next() else send 403
-};
-router.use(verifyLogin);
+router.use(extractUserDetails);
 
 router.get('/', async (req, res, next) => {
   try {
@@ -24,7 +15,13 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  const entries = await DB.mapEntries().getById(req.params.id);
+  if (!req.user.userId) {
+    return res
+      .statusCode(403)
+      .send({ message: 'You must be logged in you stupid fuck' });
+  }
+
+  const entries = await DB.mapEntries().getByUserId(req.user.userId);
   res.send(entries);
 });
 

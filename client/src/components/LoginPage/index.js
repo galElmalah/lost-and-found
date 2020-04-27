@@ -2,16 +2,22 @@ import * as React from 'react';
 import GoogleLogin from 'react-google-login';
 import Container from '@material-ui/core/Container';
 import { UserDetailsContext } from '../../providers/UserDetailsProvider/index';
+import { useHistory } from 'react-router';
+import { Redirect } from 'react-router-dom';
+
 
 export const LoginPage = () => {
   const { userDetails, setUserDetails } = React.useContext(UserDetailsContext);
+  const history = useHistory();
 
   const responseGoogle = (response) => {
-    console.log(response);
-    setUserDetails(response);
+    setUserDetails(response.profileObj);
+    history.push('/map');
   };
 
-  console.log({ userDetails });
+  if (userDetails.name) {
+    return <Redirect to="/map" />;
+  }
   return (
     <Container maxWidth="sm">
       <p>Login via your google account</p>
