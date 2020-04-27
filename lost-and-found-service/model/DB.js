@@ -12,7 +12,7 @@ module.exports = class DB {
     return UsersDb
   }
 
-  static async connect({port,user,password}) {
+  static connect({port,user,password}) {
     return mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true});
   }
 
