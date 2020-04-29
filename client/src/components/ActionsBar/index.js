@@ -53,16 +53,16 @@ export  const TransitionsModal =({isOpen, handleClose, children = ''}) => {
 }
 
 const FoundModal = ({isOpen, handleClose,showAlert}) =>  <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
-    <ItemForm showAlert={showAlert} title={'Found Something'} type={'found'} handleClose={handleClose}/>
+    <ItemForm showAlert={showAlert} title={'Found Something'} entryType={'found'} handleClose={handleClose}/>
   </TransitionsModal>
 
 
 const LostModal = ({isOpen, handleClose,showAlert}) =>  <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
-    <ItemForm  showAlert={showAlert}title={'Lost Something'} type={'lost'} handleClose={handleClose}/>
+    <ItemForm  showAlert={showAlert}title={'Lost Something'} entryType={'lost'} handleClose={handleClose}/>
   </TransitionsModal>
 
 
-const ItemForm = ({type, handleClose, title,showAlert}) => {
+const ItemForm = ({entryType, handleClose, title,showAlert}) => {
   const {enableDraggableMarker,disableDraggableMarker, addMarker, initialPosition, draggableMarkerPosition} = useContext(MarkersContext)
   const [useCurrentLocation, setUseCurrentLocation] = useState(draggableMarkerPosition ? false :true)
   const [name, setName] = React.useState('');
@@ -108,8 +108,8 @@ const ItemForm = ({type, handleClose, title,showAlert}) => {
     <div className={style.btns}>
      <Button onClick={async () => {
        if(name && description) {
-        await addMarker({name, description, type,location: useCurrentLocation ? initialPosition : draggableMarkerPosition})
-        showAlert({msg:'Entry created successfully!',type:'success'})
+        await addMarker({name, description, entryType,location: useCurrentLocation ? initialPosition : draggableMarkerPosition})
+        showAlert({msg:'Entry created successfully!',entryType:'success'})
         resetForm()
         handleClose()
        } else {
