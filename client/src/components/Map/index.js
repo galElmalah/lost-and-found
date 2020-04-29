@@ -47,16 +47,16 @@ export const Map = () => {
   );
 };
 
-const CustomMarker = ({ location, name, description,entryType, type, id }) => (
+const CustomMarker = ({ location, name, lostOrFoundAt, description,entryType, type, id }) => (
   <Marker key={id} position={location} icon={entryType === 'found'? greenMarker: redMarker}>
     <Popup>
       <span className={style.popoverContainer}>
-        <h4>Type:</h4>
-        <p>{type}</p>
-        <h4>Name:</h4>
-        <p>{name}</p>
-        <h4>Description:</h4>
-        <p>{description}</p>
+        <p className={style.descriptionItem}>{description}</p>
+        <p className={style.informationItem}><span>Date:</span>{lostOrFoundAt}</p>
+        <p className={style.informationItem}><span>Category:</span>Key</p>
+        <p className={style.informationItem}><span>By:</span>Zeitoun Yoel</p>
+
+        
       </span>
     </Popup>
   </Marker>
