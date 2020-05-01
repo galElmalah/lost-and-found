@@ -160,12 +160,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
           multiline
         />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DatePicker
-            value={selectedDate}
-            onChange={(e) => {
-              handleDateChange(e.toUTCString());
-            }}
-          />
+          <DatePicker value={selectedDate} onChange={handleDateChange} />
         </MuiPickersUtilsProvider>
         <div className={style.btns}>
           <Button
@@ -178,7 +173,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                   location: useCurrentLocation
                     ? initialPosition
                     : draggableMarkerPosition,
-                  lostOrFoundAt: selectedDate,
+                  lostOrFoundAt: selectedDate.toUTCString(),
                 });
                 showAlert({
                   msg: 'Entry created successfully!',

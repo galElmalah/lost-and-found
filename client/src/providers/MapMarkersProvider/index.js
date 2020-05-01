@@ -10,7 +10,6 @@ export const MarkersProvider = ({ children }) => {
     initialData: [],
   });
 
-  
   const { callApi } = useApi('/items', {
     method: 'post',
     invokeManually: true,
@@ -44,7 +43,7 @@ export const MarkersProvider = ({ children }) => {
 
   const addMarker = (marker) => {
     return callApi({ item: marker }).then((data) => {
-      console.log('data');
+      console.log({ data });
       setMarkers((_markers) => [..._markers, { ...marker, id: data.id }]);
     });
   };

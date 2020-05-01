@@ -6,6 +6,11 @@ const Schema = mongoose.Schema;
 
 const entriesTypes = ['lost', 'found'];
 
+const MatchSchema = new Schema({
+  matchedWithEntryId: { type: String, required: true },
+  seen: { type: Boolean, default: false },
+  score: { type: Number, default: 0 },
+});
 module.exports.MapEntrySchema = new Schema({
   name: String,
   description: String,
@@ -20,5 +25,9 @@ module.exports.MapEntrySchema = new Schema({
   location: {
     type: PointSchema,
     required: true,
+  },
+  matches: {
+    type: [MatchSchema],
+    default: [],
   },
 });
