@@ -5,7 +5,11 @@ import { Map as LeafletMap, Marker, Popup, TileLayer } from 'react-leaflet';
 import { MarkersContext } from '../../providers/MapMarkersProvider/index';
 import { UserDetailsContext } from '../../providers/UserDetailsProvider';
 import { Redirect } from 'react-router-dom';
-import {redMarker, greenMarker, blueMarker} from '../../providers/MapMarkersProvider/markersConfig';
+import {
+  redMarker,
+  greenMarker,
+  blueMarker,
+} from '../../providers/MapMarkersProvider/markersConfig';
 
 export const Map = () => {
   const {
@@ -47,17 +51,37 @@ export const Map = () => {
   );
 };
 
-const CustomMarker = ({ location, name, lostOrFoundAt, description,entryType, type, id }) => (
-  <Marker key={id} position={location} icon={entryType === 'found'? greenMarker: redMarker}>
-    <Popup>
-      <span className={style.popoverContainer}>
-        <p className={style.descriptionItem}>{description}</p>
-        <p className={style.informationItem}><span>Date:</span>{lostOrFoundAt}</p>
-        <p className={style.informationItem}><span>Category:</span>Key</p>
-        <p className={style.informationItem}><span>By:</span>Zeitoun Yoel</p>
-
-        
-      </span>
-    </Popup>
-  </Marker>
-);
+const CustomMarker = ({
+  location,
+  name,
+  lostOrFoundAt,
+  description,
+  entryType,
+  type,
+  id,
+}) => {
+  console.log({ lostOrFoundAt, type: typeof lostOrFoundAt });
+  return (
+    <Marker
+      key={id}
+      position={location}
+      icon={entryType === 'found' ? greenMarker : redMarker}
+    >
+      <Popup>
+        <span className={style.popoverContainer}>
+          <p className={style.descriptionItem}>{description}</p>
+          <p className={style.informationItem}>
+            <span>Date:</span>
+            {lostOrFoundAt}
+          </p>
+          <p className={style.informationItem}>
+            <span>Category:</span>Key
+          </p>
+          <p className={style.informationItem}>
+            <span>By:</span>Zeitoun Yoel
+          </p>
+        </span>
+      </Popup>
+    </Marker>
+  );
+};
