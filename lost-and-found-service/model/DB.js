@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { MapEntriesDb } = require('./DBs/MapEntriesDb');
-const { UsersDb } = require('./DBs/UsersDb');
+const { MatchesDb } = require('./DBs/MatchesDb');
 
 module.exports = class DB {
   static mapEntries() {

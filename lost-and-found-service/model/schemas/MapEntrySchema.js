@@ -1,4 +1,6 @@
 const PointSchema = require('./PointSchema');
+const ReporterSchema = require('./ReporterSchema');
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -9,7 +11,7 @@ module.exports.MapEntrySchema = new Schema({
   description: String,
   createdAt: { type: Date, default: Date.now },
   lostOrFoundAt: { type: Date, default: Date.now },
-  reporterId: String,
+  reporter: { type: ReporterSchema, required: true },
   entryType: {
     type: String,
     enum: entriesTypes,

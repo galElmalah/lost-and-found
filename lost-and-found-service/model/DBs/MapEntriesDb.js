@@ -1,4 +1,4 @@
-const {MapEntryModel} = require('../MapEntryModel')
+const {MapEntryModel} = require('../models/MapEntryModel')
 
 
 module.exports.MapEntriesDb = class MapEntryDb {
