@@ -6,6 +6,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Switch, Route } from 'react-router-dom';
 import { LoginPage } from './components/LoginPage/index';
+import { TopBadges } from './components/TopBadges';
+import { Drawer } from './components/Drawer';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -46,6 +48,8 @@ function App() {
         path="/map"
         render={() => (
           <div className="App">
+            <TopBadges />
+            <Drawer />
             <CustomizedSnackbar open={open} setOpen={setOpen} />
             <ActionsBar showAlert={setOpen} />
             <Map />
