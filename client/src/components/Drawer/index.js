@@ -77,6 +77,7 @@ const FilterList = () => {
       <ListItem>
         <Autocomplete
           multiple
+          className={style.autocomplete}
           id="tags-outlined"
           options={autoCompleteOptions}
           getOptionLabel={(option) => option.title}
@@ -87,7 +88,7 @@ const FilterList = () => {
               {...params}
               variant="outlined"
               label="filterSelectedOptions"
-              placeholder="Favorites"
+              placeholder="categories"
             />
           )}
         />
