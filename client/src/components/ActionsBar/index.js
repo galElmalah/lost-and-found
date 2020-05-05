@@ -12,6 +12,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { MarkersContext } from '../../providers/MapMarkersProvider/index';
 import DateFnsUtils from '@date-io/date-fns';
+import {ColorPicker} from '../Utility'
+
 export const ActionsBar = ({ showAlert }) => {
   const [openModal, setOpenModal] = useState(null);
   return (
@@ -106,11 +108,15 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
   const [name, setName] = React.useState('');
   const [selectedDate, handleDateChange] = useState(new Date());
   const [description, setDescription] = React.useState('');
+  const [color, setColor] = React.useState('');
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
+  };
+  const handleChangeComplete = (color, event) => {
+    setColor(color.hex);
   };
 
   const resetForm = () => {
@@ -162,6 +168,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DatePicker value={selectedDate} onChange={handleDateChange} />
         </MuiPickersUtilsProvider>
+        <ColorPicker handleChangeComplete={handleChangeComplete}></ColorPicker>
         <div className={style.btns}>
           <Button
             onClick={async () => {
@@ -174,6 +181,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                     ? initialPosition
                     : draggableMarkerPosition,
                   lostOrFoundAt: selectedDate.toUTCString(),
+                  color
                 });
                 showAlert({
                   msg: 'Entry created successfully!',

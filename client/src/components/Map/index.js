@@ -59,8 +59,10 @@ const CustomMarker = ({
   entryType,
   type,
   id,
+  color
 }) => {
-  console.log({ lostOrFoundAt, type: typeof lostOrFoundAt });
+  
+  const spanStyle={color: color, backgroundColor:color, height:'17px', width: '70%'}
   return (
     <Marker
       key={id}
@@ -79,6 +81,9 @@ const CustomMarker = ({
           </p>
           <p className={style.informationItem}>
             <span>By:</span>Zeitoun Yoel
+          </p>
+          <p className={style.informationItem}>
+            <span>Color:</span><span clasName={style.colorItem} style={spanStyle}></span>
           </p>
         </span>
       </Popup>

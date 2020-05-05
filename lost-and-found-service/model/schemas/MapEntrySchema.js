@@ -22,6 +22,7 @@ module.exports.MapEntrySchema = new Schema({
     enum: entriesTypes,
   },
   labels: [String],
+  color: String,
   location: {
     type: PointSchema,
     required: true,
