@@ -31,9 +31,9 @@ export const useApi = (endpoint, options = defaultOptions) => {
   const _data = dataMixer(optionsData, userDetails);
 
   const callApi = useCallback(
-    (passedData) =>
+    (passedData, url) =>
       Axios.request({
-        url: getEndpoint(endpoint, method, userDetails.googleId),
+        url: url || getEndpoint(endpoint, method, userDetails.googleId),
         method,
         data: passedData ? dataMixer(passedData, userDetails) : _data,
       }),
@@ -46,6 +46,7 @@ export const useApi = (endpoint, options = defaultOptions) => {
         .then(({ data }) => {
           console.log({ data });
           setData(data);
+          return data;
         })
         .catch(setHasError)
         .finally(() => setIsFetching(false));
