@@ -1,5 +1,7 @@
 const { MapEntryModel } = require('../models/MapEntryModel');
 
+const kmToMiles = (distanceInKm) => distanceInKm / 1.609;
+
 module.exports.MapEntriesDb = class MapEntryDb {
   static getById(id) {
     return MapEntryModel.find({ where: id });
@@ -18,7 +20,6 @@ module.exports.MapEntriesDb = class MapEntryDb {
     location,
     radius = 20,
   }) {
-    const kmToMiles = (distanceInKm) => distanceInKm / 1.609;
     return MapEntryModel.find(
       {
         entryType: {
@@ -36,8 +37,15 @@ module.exports.MapEntriesDb = class MapEntryDb {
     );
   }
 
-  static getAllInRadius(radius) {
-    return MapEntryModel.find({});
+  static getAllInRadius(location = [31.78123199999997, 34.7], radius) {
+    console.log({ location });
+    return MapEntryModel.find({
+      location: {
+        $geoWithin: {
+          $centerSphere: [location, kmToMiles(radius) / 3963.2],
+        },
+      },
+    });
   }
 
   static updateMatchesForSpecificId({ matches: _matches, matchedWith }) {

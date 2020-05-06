@@ -1,4 +1,5 @@
 const express = require('express');
+const { applyFilters } = require('./filters');
 const router = express.Router();
 const { extractUserDetails } = require('../middlewares/extractUserDetails');
 const DB = require('../model/DB');
@@ -20,6 +21,18 @@ const findMatches = async (entry) => {
 };
 
 router.get('/', async (req, res, next) => {
+  if (req.query.range) {
+    const entriesInRange = await DB.mapEntries().getAllInRadius(
+      undefined,
+      req.query.range
+    );
+
+    const entriesAfterFilters = applyFilters(req.query, entriesInRange);
+
+    res.send(entriesAfterFilters);
+
+    return;
+  }
   try {
     const entries = await DB.mapEntries().getAll();
     res.send(entries);

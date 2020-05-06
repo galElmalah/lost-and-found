@@ -59,6 +59,7 @@ export const MarkersProvider = ({ children }) => {
         setInitialPosition,
         markers,
         addMarker,
+        setMarkers,
         removeMarker,
         enableDraggableMarker,
         draggableMarkerPosition,
