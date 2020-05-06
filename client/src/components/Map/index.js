@@ -29,6 +29,7 @@ export const Map = () => {
         className={style.map}
         center={draggableMarkerPosition || initialPosition}
         zoom={12}
+        dragging ={true}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -61,7 +62,7 @@ const CustomMarker = ({
   id,
   color
 }) => {
-  
+
   const spanStyle={color: color, backgroundColor:color, height:'17px', width: '70%'}
   return (
     <Marker
