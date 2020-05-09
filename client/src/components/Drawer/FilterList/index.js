@@ -1,7 +1,12 @@
-import React, { useState, useContext, createContext } from 'react';
-import * as style from './Drawer.module.scss';
-import MDrawer from '@material-ui/core/Drawer';
-import { FilterList } from './FilterList';
+import React from 'react';
+import { MarkersContext } from '../../../providers/MapMarkersProvider/index';
+import Axios from 'axios';
+import * as style from './FilterList.module.scss';
+
+import throttle from 'lodash/throttle';
+import Divider from '@material-ui/core/Divider';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import {
   List,
@@ -12,12 +17,9 @@ import {
   Slider,
   TextField,
 } from '@material-ui/core';
-import { ColorPicker } from '../Utility';
-import { UserDetailsContext } from '../../providers/UserDetailsProvider/index';
+import { ColorPicker } from '../../Utility';
+import { UserDetailsContext } from '../../../providers/UserDetailsProvider/index';
 
-import { MarkersContext } from '../../providers/MapMarkersProvider/index';
-import Axios from 'axios';
-import throttle from 'lodash/throttle';
 const autoCompleteOptions = [
   { title: 'keys' },
   { title: 'red' },
@@ -49,7 +51,7 @@ const toggleFilters = [
   },
 ];
 
-const FilterList = React.memo(
+export const FilterList = React.memo(
   () => {
     const { userDetails } = React.useContext(UserDetailsContext);
     const { setMarkers } = React.useContext(MarkersContext);
@@ -84,7 +86,7 @@ const FilterList = React.memo(
 
     console.log('shit');
     return (
-      <List className='slideFilterBar'>
+      <List>
         <ListSubheader>Range Selector (radius)</ListSubheader>
 
         <ListItem>
@@ -176,35 +178,3 @@ const FilterList = React.memo(
   },
   () => true
 );
-export const drawers = {
-  FILTER: 'FILTER',
-  MATCH: 'MATCH',
-  MESSAGES: 'MESSAGES',
-};
-export const DrawerContext = createContext({});
-
-export const DrawerProvider = ({ children }) => {
-  const [openDrawer, setOpenDrawer] = useState('');
-
-  return (
-    <DrawerContext.Provider value={{ openDrawer, setOpenDrawer }}>
-      {children}
-    </DrawerContext.Provider>
-  );
-};
-
-export const Drawer = () => {
-  const { openDrawer, setOpenDrawer } = useContext(DrawerContext);
-  const drawersMapping = {
-    [drawers.FILTER]: () => <FilterList />,
-  };
-  return (
-    <MDrawer
-      anchor={'left'}
-      open={!!openDrawer}
-      onClose={() => setOpenDrawer('')}
-    >
-      {drawersMapping[openDrawer] ? drawersMapping[openDrawer]() : ''}
-    </MDrawer>
-  );
-};
