@@ -19,7 +19,12 @@ export const TopBadges = () => {
         />
       </Badge>
       <Badge color="secondary" badgeContent={12} className={style.item}>
-        <NotificationsNoneIcon color="action" />
+        <NotificationsNoneIcon
+          color="action"
+          onClick={() => {
+            setOpenDrawer(drawers.MATCH);
+          }}
+        />
       </Badge>
       <Badge color="secondary" badgeContent={3} className={style.item}>
         <MailIcon color="action" />

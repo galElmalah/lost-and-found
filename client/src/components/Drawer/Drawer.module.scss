@@ -1,0 +1,18 @@
+.defualt {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 200ms ease-in;
+}
+
+.animate {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.matchPanel {
+  margin: 10px 0;
+  max-width: 300px;
+}
+.matches {
+  padding: 10px;
+}
