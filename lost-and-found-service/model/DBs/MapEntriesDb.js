@@ -4,7 +4,7 @@ const kmToMiles = (distanceInKm) => distanceInKm / 1.609;
 
 module.exports.MapEntriesDb = class MapEntryDb {
   static getById(id) {
-    return MapEntryModel.find({ where: id });
+    return MapEntryModel.find(id);
   }
 
   static getAll() {
@@ -38,7 +38,6 @@ module.exports.MapEntriesDb = class MapEntryDb {
   }
 
   static getAllInRadius(location = [31.78123199999997, 34.7], radius) {
-    console.log({ location });
     return MapEntryModel.find({
       location: {
         $geoWithin: {

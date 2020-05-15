@@ -12,8 +12,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { MarkersContext } from '../../providers/MapMarkersProvider/index';
 import DateFnsUtils from '@date-io/date-fns';
-import { ColorPicker } from '../Utility'
-import ButtonStyle from '../ButtonStyle/ButtonStyle'
+import { ColorPicker } from '../Utility';
+import ButtonStyle from '../ButtonStyle/ButtonStyle';
 import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -39,8 +39,12 @@ export const ActionsBar = ({ showAlert }) => {
         variant="contained"
         aria-label="outlined primary button group"
       >
-        <ButtonStyle text='found' clickHandler={() => setOpenModal('found')}> </ButtonStyle>
-        <ButtonStyle text='lost' clickHandler={() => setOpenModal('lost')}> </ButtonStyle>
+        <ButtonStyle text="found" clickHandler={() => setOpenModal('found')}>
+          {' '}
+        </ButtonStyle>
+        <ButtonStyle text="lost" clickHandler={() => setOpenModal('lost')}>
+          {' '}
+        </ButtonStyle>
       </ButtonGroup>
     </div>
   );
@@ -133,30 +137,28 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
             label="Use my location"
           />
         ) : (
-            <Button
-              onClick={() => {
-                enableDraggableMarker();
-                handleClose();
-              }}
-            >
-              Select a location using the map
+          <Button
+            onClick={() => {
+              enableDraggableMarker();
+              handleClose();
+            }}
+          >
+            Select a location using the map
           </Button>
-          )}
+        )}
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-
-            <InputLabel shrink >
-              Date
-            </InputLabel>
+            <InputLabel shrink>Date</InputLabel>
             <MuiPickersUtilsProvider utils={DateFnsUtils} fullWidth>
-              <DatePicker value={selectedDate} fullWidth onChange={handleDateChange} />
+              <DatePicker
+                value={selectedDate}
+                fullWidth
+                onChange={handleDateChange}
+              />
             </MuiPickersUtilsProvider>
           </Grid>
           <Grid item xs={12} sm={6}>
-
-            <InputLabel shrink >
-              Category
-            </InputLabel>
+            <InputLabel shrink>Category</InputLabel>
             <Select fullWidth defaultValue="None" id="grouped-select">
               <MenuItem value="">
                 <em>None</em>
@@ -174,9 +176,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
               <ListSubheader>Category 2</ListSubheader>
               <MenuItem value={7}>Option 3</MenuItem>
               <MenuItem value={8}>Option 4</MenuItem>
-
             </Select>
-
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -190,7 +190,10 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
               fullWidth
             />
           </Grid>
-          <ColorPicker width='100%' handleChangeComplete={handleChangeComplete}></ColorPicker>
+          <ColorPicker
+            width="100%"
+            handleChangeComplete={handleChangeComplete}
+          ></ColorPicker>
         </Grid>
         <div className={style.btns}>
           <Button
@@ -204,7 +207,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                     ? initialPosition
                     : draggableMarkerPosition,
                   lostOrFoundAt: selectedDate.toUTCString(),
-                  color
+                  color,
                 });
                 showAlert({
                   msg: 'Entry created successfully!',

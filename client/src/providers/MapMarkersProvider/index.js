@@ -42,9 +42,8 @@ export const MarkersProvider = ({ children }) => {
   };
 
   const addMarker = (marker) => {
-    return callApi({ item: marker }).then((data) => {
-      console.log({ data });
-      setMarkers((_markers) => [..._markers, { ...marker, id: data.id }]);
+    return callApi({ item: marker }).then(({ data }) => {
+      setMarkers((_markers) => [..._markers, ...data]);
     });
   };
 

@@ -44,7 +44,6 @@ export const useApi = (endpoint, options = defaultOptions) => {
     if (!invokeManually) {
       callApi()
         .then(({ data }) => {
-          console.log({ data });
           setData(data);
           return data;
         })

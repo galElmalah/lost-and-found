@@ -60,10 +60,8 @@ export const FilterList = React.memo(
     const [range, setRange] = React.useState(15);
     const ref = React.useRef(
       throttle((query) => {
-        console.log('called');
         Axios.get(`http://localhost:3001/items${query}`).then(({ data }) => {
           setMarkers(data);
-          console.log(data);
         });
       }, 300)
     ).current;
@@ -84,9 +82,8 @@ export const FilterList = React.memo(
       ref(buildQuery());
     }, [toggels, labels, range]);
 
-    console.log('shit');
     return (
-      <List>
+      <List className={'slide-filter-bar'}>
         <ListSubheader>Range Selector (radius)</ListSubheader>
 
         <ListItem>
@@ -114,7 +111,6 @@ export const FilterList = React.memo(
                   disableRipple
                   onChange={() => {
                     if (value === 'USER_ENTRIES') {
-                      console.log('hereeee');
                       if (toggels[value]) {
                         setToggels((prevToggels) => ({
                           ...prevToggels,

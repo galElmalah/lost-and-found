@@ -6,181 +6,12 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { MarkersContext } from '../../providers/MapMarkersProvider';
+import { UserDetailsContext } from '../../providers/UserDetailsProvider';
 
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Checkbox,
-  Slider,
-  TextField,
-} from '@material-ui/core';
-import { ColorPicker } from '../Utility';
-import { UserDetailsContext } from '../../providers/UserDetailsProvider/index';
-
-import { MarkersContext } from '../../providers/MapMarkersProvider/index';
-import Axios from 'axios';
-import throttle from 'lodash/throttle';
-const autoCompleteOptions = [
-  { title: 'keys' },
-  { title: 'red' },
-  { title: 'yoel' },
-  { title: 'cat' },
-  { title: 'money' },
-  { title: 'wallet' },
-];
-const toggleFilters = [
-  {
-    value: 'LOSTS',
-    title: 'losts',
-    subtitle: 'show only losts entries',
-  },
-  {
-    value: 'FOUNDS',
-    title: 'founds',
-    subtitle: 'show only founds entries',
-  },
-  {
-    value: 'USER_ENTRIES',
-    title: 'my entries',
-    subtitle: 'show only entries reported by me',
-  },
-  {
-    value: 'MATCHES',
-    title: 'my matches',
-    subtitle: 'show only entries i matches with',
-  },
-];
-
-const FilterList = React.memo(
-  () => {
-    const { userDetails } = React.useContext(UserDetailsContext);
-    const { setMarkers } = React.useContext(MarkersContext);
-    const [toggels, setToggels] = React.useState({});
-    const [labels, setLabels] = React.useState([]);
-    const [range, setRange] = React.useState(15);
-    const ref = React.useRef(
-      throttle((query) => {
-        console.log('called');
-        Axios.get(`http://localhost:3001/items${query}`).then(({ data }) => {
-          setMarkers(data);
-          console.log(data);
-        });
-      }, 300)
-    ).current;
-
-    const buildQuery = () => {
-      const toggelsQuery = Object.entries(toggels)
-        .filter(([key, val]) => val)
-        .map(([key, val]) => `${key.toLowerCase()}=${val}`)
-        .join('&');
-      const labelsQuery = labels.length ? `labels=${labels.join(',')}` : '';
-
-      return `?range=${range}&${toggelsQuery}${
-        labelsQuery ? `&${labelsQuery}` : ''
-      }`;
-    };
-
-    React.useEffect(() => {
-      ref(buildQuery());
-    }, [toggels, labels, range]);
-
-    console.log('shit');
-    return (
-      <List className='slideFilterBar'>
-        <ListSubheader>Range Selector (radius)</ListSubheader>
-
-        <ListItem>
-          <Slider
-            value={range}
-            min={0}
-            step={0.1}
-            max={200}
-            valueLabelFormat={(v) => v + 'km'}
-            scale={(x) => x ** 10}
-            onChange={(e, nv) => setRange(nv)}
-            valueLabelDisplay="auto"
-            aria-labelledby="non-linear-slider"
-          />
-        </ListItem>
-
-        <ListSubheader>Toggle Filters</ListSubheader>
-        {toggleFilters.map(({ title, subtitle, value }) => (
-          <>
-            <ListItem dense button>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={toggels[value]}
-                  disableRipple
-                  onChange={() => {
-                    if (value === 'USER_ENTRIES') {
-                      console.log('hereeee');
-                      if (toggels[value]) {
-                        setToggels((prevToggels) => ({
-                          ...prevToggels,
-                          [value]: prevToggels[value]
-                            ? false
-                            : userDetails.googleId,
-                        }));
-                        return;
-                      }
-                      setToggels((prevToggels) => ({
-                        ...prevToggels,
-                        [value]: userDetails.googleId,
-                      }));
-                      return;
-                    }
-                    if (toggels[value]) {
-                      setToggels((prevToggels) => ({
-                        ...prevToggels,
-                        [value]: !prevToggels[value],
-                      }));
-                      return;
-                    }
-                    setToggels((prevToggels) => ({
-                      ...prevToggels,
-                      [value]: true,
-                    }));
-                  }}
-                />
-              </ListItemIcon>
-              <ListItemText primary={title} secondary={subtitle} />
-            </ListItem>
-            <Divider />
-          </>
-        ))}
-        <ListSubheader>Categories</ListSubheader>
-        <ListItem>
-          <Autocomplete
-            multiple
-            className={style.autocomplete}
-            id="tags-outlined"
-            onChange={(e, selected) => setLabels(selected.map((_) => _.title))}
-            options={autoCompleteOptions}
-            getOptionLabel={(option) => option.title}
-            filterSelectedOptions
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="filterSelectedOptions"
-                placeholder="categories"
-              />
-            )}
-          />
-        </ListItem>
-        <ListSubheader>Colors</ListSubheader>
-        <ListItem>
-          <ColorPicker />
-        </ListItem>
-      </List>
-    );
-  },
-  () => true
-);
 export const drawers = {
   FILTER: 'FILTER',
   MATCH: 'MATCH',
@@ -209,9 +40,23 @@ const AnimatedItem = ({ pos, children }) => {
 };
 
 const UserMatchesList = () => {
+  const { markers } = useContext(MarkersContext);
+  const { userDetails } = useContext(UserDetailsContext);
+
+  const getUserMatches = () => {
+    return markers
+      .filter((m) => m.reporter.id === userDetails.googleId)
+      .map(({ name, _id, matches, description }) => ({
+        name,
+        _id,
+        matches,
+        description,
+      }));
+  };
+
   return (
     <div className={style.matches}>
-      {matches.map((m, i) => {
+      {getUserMatches().map((m, i) => {
         return (
           <AnimatedItem pos={i} key={i}>
             <ExpansionPanel className={style.matchPanel}>
@@ -220,14 +65,22 @@ const UserMatchesList = () => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography>{m.name}</Typography>
+                <Typography>{m._id}</Typography>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
-                </Typography>
+              <ExpansionPanelDetails style={{ display: 'block' }}>
+                {[...m.matches]
+                  .sort((a, b) => a.score - b.score)
+                  .reverse()
+                  .map((match) => (
+                    <>
+                      <Typography align="left" className={style.match}>
+                        matched with: {match.matchedWithEntryId}
+                      </Typography>
+                      <Typography align="left" className={style.match}>
+                        match score: {match.score}
+                      </Typography>
+                    </>
+                  ))}
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </AnimatedItem>

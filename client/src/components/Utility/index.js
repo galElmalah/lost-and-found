@@ -5,7 +5,7 @@ import { TwitterPicker } from 'react-color';
 export const ColorPicker = ({
   handleChangeComplete = console.log,
   className,
-  width = "276px"
+  width = '276px',
 }) => {
   const colors = [
     '#FF6900',

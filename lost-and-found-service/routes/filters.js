@@ -3,7 +3,6 @@ module.exports.applyFilters = (queries, entriesInRange) => {
     .filter(([key, val]) => val !== 'false')
     .filter(([key]) => key !== 'range');
 
-  console.log(filters);
   const filtersFns = {
     losts: (entries) => (e) => e.entryType === 'lost',
     founds: (entries) => (e) => e.entryType === 'found',
@@ -20,6 +19,5 @@ module.exports.applyFilters = (queries, entriesInRange) => {
     );
   });
 
-  console.log({ final: filteredEntries });
   return filteredEntries;
 };

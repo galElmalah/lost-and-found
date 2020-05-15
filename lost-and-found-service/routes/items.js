@@ -53,10 +53,9 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  const entry = await DB.mapEntries().add(req.body.item, req.user);
+  let entry = await DB.mapEntries().add(req.body.item, req.user);
   try {
     const matches = await findMatches(entry);
-    console.log({ id: entry._id });
     await Promise.all([
       DB.mapEntries().updateMatchesByIds({
         matches,
@@ -67,9 +66,8 @@ router.post('/', async (req, res, next) => {
         matchedWith: entry._id,
       }),
     ]);
-  } catch (e) {
-    console.log({ error: e });
-  }
+  } catch (e) {}
+  entry = await DB.mapEntries().getById(entry._id);
   res.status(201).send(entry);
 });
 

@@ -23,6 +23,7 @@ export const Map = () => {
   if (!userDetails.name) {
     return <Redirect to="/" />;
   }
+
   return (
     <div style={{ height: '100vh' }}>
       <LeafletMap
@@ -60,13 +61,16 @@ const CustomMarker = ({
   entryType,
   type,
   id,
-  color
+  color,
 }) => {
-
   const spanStyle = {
-    color: color, backgroundColor: color,
-    height: '17px', width: '70%', position: 'relative', top: '4px'
-  }
+    color: color,
+    backgroundColor: color,
+    height: '17px',
+    width: '70%',
+    position: 'relative',
+    top: '4px',
+  };
   return (
     <Marker
       key={id}
@@ -86,11 +90,12 @@ const CustomMarker = ({
           <p className={style.informationItem}>
             <span>By:</span>Zeitoun Yoel
           </p>
-          {color &&
-          <p className={style.informationItem}>
-            <span>Color:</span><span clasName={style.colorItem} style={spanStyle}></span>
-          </p>
-          }
+          {color && (
+            <p className={style.informationItem}>
+              <span>Color:</span>
+              <span clasName={style.colorItem} style={spanStyle}></span>
+            </p>
+          )}
         </span>
       </Popup>
     </Marker>
