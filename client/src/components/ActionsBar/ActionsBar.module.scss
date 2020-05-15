@@ -19,7 +19,7 @@
   border-radius: 8px;
   outline: 0 !important;
   height: fit-content;
-  width: 50%;
+  width: 30%;
   padding: 20px;
   box-sizing: border-box;
   background: white;
@@ -28,7 +28,11 @@
     margin: 0;
   }
 }
-
+@media only screen and (max-width: 600px) {
+  .modalContent {
+    width: 90%;
+  }
+}
 .form {
   display: flex;
   flex-direction: column;

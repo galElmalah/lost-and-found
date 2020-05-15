@@ -12,7 +12,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { MarkersContext } from '../../providers/MapMarkersProvider/index';
 import DateFnsUtils from '@date-io/date-fns';
-import {ColorPicker} from '../Utility'
+import { ColorPicker } from '../Utility'
+import ButtonStyle from '../ButtonStyle/ButtonStyle'
+import Grid from '@material-ui/core/Grid';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import InputLabel from '@material-ui/core/InputLabel';
 
 export const ActionsBar = ({ showAlert }) => {
   const [openModal, setOpenModal] = useState(null);
@@ -31,23 +37,10 @@ export const ActionsBar = ({ showAlert }) => {
 
       <ButtonGroup
         variant="contained"
-        color="primary"
         aria-label="outlined primary button group"
       >
-        <Button
-          onClick={() => {
-            setOpenModal('found');
-          }}
-        >
-          Found
-        </Button>
-        <Button
-          onClick={() => {
-            setOpenModal('lost');
-          }}
-        >
-          Lost
-        </Button>
+        <ButtonStyle text='found' clickHandler={() => setOpenModal('found')}> </ButtonStyle>
+        <ButtonStyle text='lost' clickHandler={() => setOpenModal('lost')}> </ButtonStyle>
       </ButtonGroup>
     </div>
   );
@@ -140,39 +133,69 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
             label="Use my location"
           />
         ) : (
-          <Button
-            onClick={() => {
-              enableDraggableMarker();
-              handleClose();
-            }}
-          >
-            Select a location using the map
+            <Button
+              onClick={() => {
+                enableDraggableMarker();
+                handleClose();
+              }}
+            >
+              Select a location using the map
           </Button>
-        )}
-        <TextField
-          onChange={handleNameChange}
-          value={name}
-          required
-          id="standard-basic"
-          label="Item name"
-        />
-        <TextField
-          onChange={handleDescriptionChange}
-          value={description}
-          required
-          id="standard-textarea"
-          label="Item description"
-          placeholder="Placeholder"
-          multiline
-        />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DatePicker value={selectedDate} onChange={handleDateChange} />
-        </MuiPickersUtilsProvider>
-        <ColorPicker handleChangeComplete={handleChangeComplete}></ColorPicker>
+          )}
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+
+            <InputLabel shrink >
+              Date
+            </InputLabel>
+            <MuiPickersUtilsProvider utils={DateFnsUtils} fullWidth>
+              <DatePicker value={selectedDate} fullWidth onChange={handleDateChange} />
+            </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+
+            <InputLabel shrink >
+              Category
+            </InputLabel>
+            <Select fullWidth defaultValue="None" id="grouped-select">
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <ListSubheader>Category 1</ListSubheader>
+              <MenuItem value={1}>Option 1</MenuItem>
+              <MenuItem value={2}>Option 2</MenuItem>
+              <ListSubheader>Category 2</ListSubheader>
+              <MenuItem value={3}>Option 3</MenuItem>
+              <MenuItem value={4}>Option 4</MenuItem>
+
+              <ListSubheader>Category 1</ListSubheader>
+              <MenuItem value={5}>Option 1</MenuItem>
+              <MenuItem value={6}>Option 2</MenuItem>
+              <ListSubheader>Category 2</ListSubheader>
+              <MenuItem value={7}>Option 3</MenuItem>
+              <MenuItem value={8}>Option 4</MenuItem>
+
+            </Select>
+
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              onChange={handleDescriptionChange}
+              value={description}
+              required
+              id="standard-textarea"
+              label="Item description"
+              placeholder="Description"
+              multiline
+              fullWidth
+            />
+          </Grid>
+          <ColorPicker width='100%' handleChangeComplete={handleChangeComplete}></ColorPicker>
+        </Grid>
         <div className={style.btns}>
           <Button
             onClick={async () => {
-              if (name && description) {
+              if (description) {
                 await addMarker({
                   name,
                   description,
@@ -191,7 +214,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                 handleClose();
               } else {
                 showAlert({
-                  msg: 'Name and description are mandatory fields!',
+                  msg: 'Description is mandatory field!',
                   type: 'error',
                 });
               }

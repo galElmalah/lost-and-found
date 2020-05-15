@@ -29,7 +29,7 @@ export const Map = () => {
         className={style.map}
         center={draggableMarkerPosition || initialPosition}
         zoom={12}
-        dragging ={true}
+        dragging={true}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -63,7 +63,10 @@ const CustomMarker = ({
   color
 }) => {
 
-  const spanStyle={color: color, backgroundColor:color, height:'17px', width: '70%'}
+  const spanStyle = {
+    color: color, backgroundColor: color,
+    height: '17px', width: '70%', position: 'relative', top: '4px'
+  }
   return (
     <Marker
       key={id}
@@ -83,9 +86,11 @@ const CustomMarker = ({
           <p className={style.informationItem}>
             <span>By:</span>Zeitoun Yoel
           </p>
+          {color &&
           <p className={style.informationItem}>
             <span>Color:</span><span clasName={style.colorItem} style={spanStyle}></span>
           </p>
+          }
         </span>
       </Popup>
     </Marker>

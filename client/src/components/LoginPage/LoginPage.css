@@ -242,3 +242,29 @@ h2.active {
 * {
   box-sizing: border-box;
 }
+
+/* Override Material UI and other third party */
+
+.slideFilterBar .MuiFormControl-root {
+  width: 300px;
+}
+
+.ActionsBar_actionsBar__1Lx_l .MuiButtonGroup-contained {
+  box-shadow: none;
+}
+.twitter-picker {
+  margin-top: 12px;
+}
+.twitter-picker input{
+  display: none !important;
+}
+.twitter-picker div:last-child span + div{
+  display: none !important;
+}
+ .MuiMenu-list{
+  max-height: 400px !important;
+  overflow-y: overlay !important;
+}
+.MuiListSubheader-sticky{
+  position: relative !important;
+}

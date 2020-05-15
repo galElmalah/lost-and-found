@@ -86,7 +86,7 @@ const FilterList = React.memo(
 
     console.log('shit');
     return (
-      <List>
+      <List className='slideFilterBar'>
         <ListSubheader>Range Selector (radius)</ListSubheader>
 
         <ListItem>
