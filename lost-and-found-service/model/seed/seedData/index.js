@@ -4,6 +4,7 @@ module.exports.mapEntriesSeedData = mapEntriesSeedData = [
     description: 'A big key with 3 holes',
     location: [31.78123199999997, 34.7],
     reporter: { id: 123, name: 'gal' },
+    createdAt: '2020-01-28T09:04:47.000Z',
     entryType: 'lost',
     color: '#FF6900',
   },

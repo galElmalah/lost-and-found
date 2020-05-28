@@ -2,6 +2,7 @@ const { MapEntryModel } = require('../models/MapEntryModel');
 
 const kmToMiles = (distanceInKm) => distanceInKm / 1.609;
 
+const EARTH_RADIUS = 3963.2;
 module.exports.MapEntriesDb = class MapEntryDb {
   static getById(id) {
     return MapEntryModel.find(id);
@@ -27,11 +28,13 @@ module.exports.MapEntriesDb = class MapEntryDb {
         },
         location: {
           $geoWithin: {
-            $centerSphere: [location, kmToMiles(radius) / 3963.2],
+            $centerSphere: [location, kmToMiles(radius) / EARTH_RADIUS],
           },
         },
       },
       {
+        location: 1,
+        createdAt: 1,
         _d: 1,
       }
     );

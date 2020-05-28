@@ -3,6 +3,7 @@ const { applyFilters } = require('./filters');
 const router = express.Router();
 const { extractUserDetails } = require('../middlewares/extractUserDetails');
 const DB = require('../model/DB');
+const { calcMatchScore } = require('./calcMatchScore');
 
 router.use(extractUserDetails);
 
@@ -11,10 +12,11 @@ const findMatches = async (entry) => {
   const entriesWithinRange = await DB.mapEntries().getEntriesWithOpositeTypesWithinRadius(
     { type, location }
   );
-  const toMatchShape = (entry) => ({
-    matchedWithEntryId: entry._id,
+
+  const toMatchShape = (_entry) => ({
+    matchedWithEntryId: _entry._id,
     seen: false,
-    score: Math.random() * 100,
+    score: calcMatchScore(entry, _entry) || 50,
   });
 
   return entriesWithinRange.map(toMatchShape);
