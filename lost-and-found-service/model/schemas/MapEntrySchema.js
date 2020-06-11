@@ -10,6 +10,10 @@ const MatchSchema = new Schema({
   matchedWithEntryId: { type: String, required: true },
   seen: { type: Boolean, default: false },
   score: { type: Number, default: 0 },
+  location: {
+    type: PointSchema,
+    required: true,
+  },
 });
 module.exports.MapEntrySchema = new Schema({
   name: String,

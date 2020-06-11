@@ -5,7 +5,7 @@ export const MarkersContext = createContext();
 export const MarkersProvider = ({ children }) => {
   const [initialPosition, setInitialPosition] = useState([0, 0]);
   const [draggableMarkerPosition, setDraggableMarker] = useState(null);
-
+  const [center, setCenter] = useState(null);
   const { data: markers, setData: setMarkers } = useApi('/items', {
     initialData: [],
   });
@@ -65,6 +65,8 @@ export const MarkersProvider = ({ children }) => {
         updateDraggableMarker,
         refmarker,
         disableDraggableMarker,
+        setCenter,
+        center,
       }}
     >
       {children}

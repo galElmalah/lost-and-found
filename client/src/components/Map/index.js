@@ -15,6 +15,7 @@ export const Map = () => {
   const {
     initialPosition,
     markers,
+    center,
     draggableMarkerPosition,
     updateDraggableMarker,
     refmarker,
@@ -23,12 +24,17 @@ export const Map = () => {
   if (!userDetails.name) {
     return <Redirect to="/" />;
   }
-
+  const getCenter = () => {
+    if (!draggableMarkerPosition) {
+      return center || initialPosition;
+    }
+    return draggableMarkerPosition;
+  };
   return (
     <div style={{ height: '100vh' }}>
       <LeafletMap
         className={style.map}
-        center={draggableMarkerPosition || initialPosition}
+        center={getCenter()}
         zoom={12}
         dragging={true}
       >
@@ -62,6 +68,7 @@ const CustomMarker = ({
   type,
   id,
   color,
+  labels,
 }) => {
   const spanStyle = {
     color: color,
@@ -85,7 +92,8 @@ const CustomMarker = ({
             {lostOrFoundAt}
           </p>
           <p className={style.informationItem}>
-            <span>Category:</span>Key
+            <span>Category:</span>
+            {labels.join(', ')}
           </p>
           <p className={style.informationItem}>
             <span>By:</span>Zeitoun Yoel

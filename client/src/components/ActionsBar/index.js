@@ -124,6 +124,17 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
     setName('');
     disableDraggableMarker();
   };
+
+  const list = () => {
+    const comps = [];
+    Object.entries(labels).forEach(([key, values]) => {
+      comps.push(<ListSubheader>{key}</ListSubheader>);
+      values.forEach((v) => comps.push(<MenuItem value={v}>{v}</MenuItem>));
+    });
+
+    return comps;
+  };
+
   return (
     <div className={style.modalContent}>
       <h2>{title}</h2>
@@ -171,25 +182,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                 setActiveLabel(e.target.value);
               }}
             >
-              {Object.entries(labels).map(([key, values]) => (
-                <span key={key}>
-                  <ListSubheader>{key}</ListSubheader>
-                  {values.map((v) => (
-                    <MenuItem value={v}>{v}</MenuItem>
-                  ))}
-                </span>
-              ))}
-
-              {/* <ListSubheader>Category 2</ListSubheader>
-              <MenuItem value={3}>Option 3</MenuItem>
-              <MenuItem value={4}>Option 4</MenuItem>
-
-              <ListSubheader>Category 1</ListSubheader>
-              <MenuItem value={5}>Option 1</MenuItem>
-              <MenuItem value={6}>Option 2</MenuItem>
-              <ListSubheader>Category 2</ListSubheader>
-              <MenuItem value={7}>Option 3</MenuItem>
-              <MenuItem value={8}>Option 4</MenuItem> */}
+              {list()}
             </Select>
           </Grid>
           <Grid item xs={12}>
@@ -222,7 +215,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                     : draggableMarkerPosition,
                   lostOrFoundAt: selectedDate.toUTCString(),
                   color,
-                  labels,
+                  labels: [activeLabel],
                 });
                 showAlert({
                   msg: 'Entry created successfully!',

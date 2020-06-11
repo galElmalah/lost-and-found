@@ -19,12 +19,16 @@ module.exports.MapEntriesDb = class MapEntryDb {
   static getEntriesWithOpositeTypesWithinRadius({
     type,
     location,
+    reporterId,
     radius = 20,
   }) {
     return MapEntryModel.find(
       {
         entryType: {
           $ne: type,
+        },
+        'reporter.id': {
+          $ne: reporterId,
         },
         location: {
           $geoWithin: {
@@ -67,7 +71,7 @@ module.exports.MapEntriesDb = class MapEntryDb {
 
   static updateMatchesByIds({ matches: _matches, matchedWith }) {
     const updatePromises = [];
-    _matches.forEach(({ matchedWithEntryId, score }) => {
+    _matches.forEach(({ matchedWithEntryId, score, location }) => {
       updatePromises.push(
         MapEntryModel.updateOne(
           {
@@ -75,7 +79,11 @@ module.exports.MapEntriesDb = class MapEntryDb {
           },
           {
             $push: {
-              matches: { score, matchedWithEntryId: matchedWith },
+              matches: {
+                score,
+                matchedWithEntryId: matchedWith,
+                location,
+              },
             },
           }
         )

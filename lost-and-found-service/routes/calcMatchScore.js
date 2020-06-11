@@ -28,7 +28,7 @@ const calcLabelsMatchStrengthScore = (l1, l2) => {
   return -100;
 };
 const calcColorMatchScore = (c1, c2) => {
-  c1 === c2 ? 5 : 0;
+  return c1 === c2 ? 5 : 0;
 };
 
 module.exports.calcMatchScore = (originEntry, entry) => {
@@ -38,7 +38,7 @@ module.exports.calcMatchScore = (originEntry, entry) => {
     originEntry.labels,
     entry.labels
   );
-  const colorScore = calcColorMatchScore(originEntry, entry);
+  const colorScore = calcColorMatchScore(originEntry.color, entry.color);
 
   return distanceScore + dateScore + labelsMatchStrengthScore + colorScore;
 };

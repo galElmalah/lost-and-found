@@ -7,6 +7,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { MarkersContext } from '../../providers/MapMarkersProvider';
@@ -40,15 +41,16 @@ const AnimatedItem = ({ pos, children }) => {
 };
 
 const UserMatchesList = () => {
-  const { markers } = useContext(MarkersContext);
+  const { markers, setCenter } = useContext(MarkersContext);
   const { userDetails } = useContext(UserDetailsContext);
 
   const getUserMatches = () => {
     return markers
       .filter((m) => m.reporter.id === userDetails.googleId)
-      .map(({ name, _id, matches, description }) => ({
+      .map(({ name, _id, matches, description, location }) => ({
         name,
         _id,
+        location,
         matches,
         description,
       }));
@@ -79,6 +81,15 @@ const UserMatchesList = () => {
                       <Typography align="left" className={style.match}>
                         match score: {match.score}
                       </Typography>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          setCenter(match.location);
+                        }}
+                      >
+                        Go to match
+                      </Button>
                     </>
                   ))}
               </ExpansionPanelDetails>

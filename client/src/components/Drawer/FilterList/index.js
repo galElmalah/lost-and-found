@@ -20,14 +20,6 @@ import {
 import { ColorPicker } from '../../Utility';
 import { UserDetailsContext } from '../../../providers/UserDetailsProvider/index';
 
-const autoCompleteOptions = [
-  { title: 'keys' },
-  { title: 'red' },
-  { title: 'yoel' },
-  { title: 'cat' },
-  { title: 'money' },
-  { title: 'wallet' },
-];
 const toggleFilters = [
   {
     value: 'LOSTS',
@@ -53,10 +45,10 @@ const toggleFilters = [
 
 export const FilterList = React.memo(
   () => {
-    const { userDetails } = React.useContext(UserDetailsContext);
+    const { userDetails, labels } = React.useContext(UserDetailsContext);
     const { setMarkers } = React.useContext(MarkersContext);
     const [toggels, setToggels] = React.useState({});
-    const [labels, setLabels] = React.useState([]);
+    const [activeLabels, setActiveLabels] = React.useState([]);
     const [range, setRange] = React.useState(15);
     const ref = React.useRef(
       throttle((query) => {
@@ -71,7 +63,9 @@ export const FilterList = React.memo(
         .filter(([key, val]) => val)
         .map(([key, val]) => `${key.toLowerCase()}=${val}`)
         .join('&');
-      const labelsQuery = labels.length ? `labels=${labels.join(',')}` : '';
+      const labelsQuery = activeLabels.length
+        ? `labels=${activeLabels.join(',')}`
+        : '';
 
       return `?range=${range}&${toggelsQuery}${
         labelsQuery ? `&${labelsQuery}` : ''
@@ -80,7 +74,7 @@ export const FilterList = React.memo(
 
     React.useEffect(() => {
       ref(buildQuery());
-    }, [toggels, labels, range]);
+    }, [toggels, activeLabels, range]);
 
     return (
       <List className={'slide-filter-bar'}>
@@ -151,8 +145,12 @@ export const FilterList = React.memo(
             multiple
             className={style.autocomplete}
             id="tags-outlined"
-            onChange={(e, selected) => setLabels(selected.map((_) => _.title))}
-            options={autoCompleteOptions}
+            onChange={(e, selected) =>
+              setActiveLabels(selected.map((_) => _.title))
+            }
+            options={Object.values(labels)
+              .reduce((acc, n) => [...acc, ...n], [])
+              .map((v) => ({ title: v }))}
             getOptionLabel={(option) => option.title}
             filterSelectedOptions
             renderInput={(params) => (

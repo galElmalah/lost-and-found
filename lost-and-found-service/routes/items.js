@@ -8,15 +8,20 @@ const { calcMatchScore } = require('./calcMatchScore');
 router.use(extractUserDetails);
 
 const findMatches = async (entry) => {
-  const { location, entryType: type } = entry;
+  const {
+    location,
+    entryType: type,
+    reporter: { id },
+  } = entry;
   const entriesWithinRange = await DB.mapEntries().getEntriesWithOpositeTypesWithinRadius(
-    { type, location }
+    { type, location, reporterId: id }
   );
 
   const toMatchShape = (_entry) => ({
     matchedWithEntryId: _entry._id,
     seen: false,
-    score: calcMatchScore(entry, _entry) || 50,
+    score: calcMatchScore(entry, _entry),
+    location: _entry.location || [],
   });
 
   return entriesWithinRange.map(toMatchShape);
