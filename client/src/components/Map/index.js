@@ -66,9 +66,10 @@ const CustomMarker = ({
   description,
   entryType,
   type,
-  id,
+  _id,
   color,
   labels,
+  ...rest
 }) => {
   const spanStyle = {
     color: color,
@@ -78,15 +79,22 @@ const CustomMarker = ({
     position: 'relative',
     top: '4px',
   };
+  console.log(rest);
   return (
     <Marker
-      key={id}
+      key={_id}
       position={location}
       icon={entryType === 'found' ? greenMarker : redMarker}
     >
       <Popup>
         <span className={style.popoverContainer}>
-          <p className={style.descriptionItem}>{description}</p>
+          <p className={style.descriptionItem}>
+            {description}
+            <br />
+            ::{_id}
+            <br />
+            ::{location}
+          </p>
           <p className={style.informationItem}>
             <span>Date:</span>
             {lostOrFoundAt}

@@ -212,7 +212,10 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                   entryType,
                   location: useCurrentLocation
                     ? initialPosition
-                    : draggableMarkerPosition,
+                    : [
+                        draggableMarkerPosition.lat,
+                        draggableMarkerPosition.lng,
+                      ],
                   lostOrFoundAt: selectedDate.toUTCString(),
                   color,
                   labels: [activeLabel],

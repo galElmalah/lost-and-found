@@ -6,12 +6,12 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
+import Tooltip from '@material-ui/core/Tooltip';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { MarkersContext } from '../../providers/MapMarkersProvider';
 import { UserDetailsContext } from '../../providers/UserDetailsProvider';
+import { Divider } from '@material-ui/core';
 
 export const drawers = {
   FILTER: 'FILTER',
@@ -46,7 +46,9 @@ const UserMatchesList = () => {
 
   const getUserMatches = () => {
     return markers
-      .filter((m) => m.reporter.id === userDetails.googleId)
+      .filter(
+        (m) => m.reporter.id === userDetails.googleId && m.matches.length > 0
+      )
       .map(({ name, _id, matches, description, location }) => ({
         name,
         _id,
@@ -75,21 +77,32 @@ const UserMatchesList = () => {
                   .reverse()
                   .map((match) => (
                     <>
-                      <Typography align="left" className={style.match}>
-                        matched with: {match.matchedWithEntryId}
-                      </Typography>
-                      <Typography align="left" className={style.match}>
-                        match score: {match.score}
-                      </Typography>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                          setCenter(match.location);
-                        }}
-                      >
-                        Go to match
-                      </Button>
+                      <div className={style.matchContainer}>
+                        <Tooltip
+                          title={match.matchedWithEntryId}
+                          aria-label="add"
+                          placement="top"
+                        >
+                          <Typography align="left" className={style.match}>
+                            match id:{' '}
+                            {match.matchedWithEntryId.slice(0, 5) + '...'}
+                          </Typography>
+                        </Tooltip>
+                        <Typography align="left" className={style.match}>
+                          match score: {match.score}
+                        </Typography>
+                        <Button
+                          align="left"
+                          variant="contained"
+                          color="primary"
+                          onClick={() => {
+                            setCenter(match.location);
+                          }}
+                        >
+                          Go to match
+                        </Button>
+                      </div>
+                      <Divider />
                     </>
                   ))}
               </ExpansionPanelDetails>
