@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useLocalStorage } from '../../customHooks/useLocalStorage';
+import { useApi } from '../../customHooks/useApi';
 
 export const UserDetailsContext = React.createContext({
   userDetails: {},
@@ -10,9 +11,12 @@ export const UserDetailsContext = React.createContext({
 
 export const UserDetailsProvider = ({ children }) => {
   const [userDetails, setUserDetails] = useLocalStorage('LAF-user-details', {});
+  const { data } = useApi('/labels', { initialData: {} });
 
   return (
-    <UserDetailsContext.Provider value={{ userDetails, setUserDetails }}>
+    <UserDetailsContext.Provider
+      value={{ userDetails, setUserDetails, labels: data }}
+    >
       {children}
     </UserDetailsContext.Provider>
   );

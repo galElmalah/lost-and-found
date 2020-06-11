@@ -7,13 +7,38 @@ const calcDistanceScore = (l1, l2) => {
 
   return Math.max(0, 15 - metersToKm(distance));
 };
-module.exports.calcMatchScore = (originEntry, entry) => {
-  // console.log(originEntry);
-  const distanceScore = calcDistanceScore(originEntry.location, entry.location);
-  console.log(Date.parse(originEntry.createdAt) - Date.parse(entry.createdAt));
-  const dateScore = Math.floor(
-    (Date.parse(originEntry.createdAt) - Date.parse(entry.createdAt)) / 86400000
-  );
 
-  console.log({ distanceScore, dateScore });
+const calcDateScore = (d1, d2) => {
+  const score = Math.floor((Date.parse(d1) - Date.parse(d2)) / 86400000);
+  if (score > 15 || score < 0) {
+    return 0;
+  }
+  return score;
+};
+
+const calcLabelsMatchStrengthScore = (l1, l2) => {
+  for (let label of l1) {
+    if (label !== 'other' && l2.includes(label)) {
+      return 30;
+    }
+  }
+  if (l1.some((l) => l === 'other') || l2.some((l) => l === 'other')) {
+    return 0;
+  }
+  return -100;
+};
+const calcColorMatchScore = (c1, c2) => {
+  c1 === c2 ? 5 : 0;
+};
+
+module.exports.calcMatchScore = (originEntry, entry) => {
+  const distanceScore = calcDistanceScore(originEntry.location, entry.location);
+  const dateScore = calcDateScore(originEntry.createdAt, entry.createdAt);
+  const labelsMatchStrengthScore = calcLabelsMatchStrengthScore(
+    originEntry.labels,
+    entry.labels
+  );
+  const colorScore = calcColorMatchScore(originEntry, entry);
+
+  return distanceScore + dateScore + labelsMatchStrengthScore + colorScore;
 };

@@ -13,6 +13,7 @@ module.exports.mapEntriesSeedData = mapEntriesSeedData = [
     description: 'A big key with 3 holes and also the color key is blue',
     location: [31.8, 34.6899093],
     reporter: { id: 123, name: 'gal' },
+    createdAt: '2020-06-06T08:12:27.809Z',
     entryType: 'found',
     color: '#FF6900',
   },
@@ -22,7 +23,7 @@ module.exports.mapEntriesSeedData = mapEntriesSeedData = [
     location: [31.7, 34.6899093],
     reporter: { id: 1234, name: 'yoel' },
     entryType: 'lost',
-    labels: ['yoel'],
+    labels: ['home', 'keys'],
     color: '#F78DA7',
   },
   {

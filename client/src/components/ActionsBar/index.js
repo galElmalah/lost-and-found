@@ -19,6 +19,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import InputLabel from '@material-ui/core/InputLabel';
+import { UserDetailsContext } from '../../providers/UserDetailsProvider';
 
 export const ActionsBar = ({ showAlert }) => {
   const [openModal, setOpenModal] = useState(null);
@@ -92,6 +93,7 @@ const LostModal = ({ isOpen, handleClose, showAlert }) => (
 );
 
 const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
+  const { labels } = useContext(UserDetailsContext);
   const {
     enableDraggableMarker,
     disableDraggableMarker,
@@ -103,6 +105,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
     draggableMarkerPosition ? false : true
   );
   const [name, setName] = React.useState('');
+  const [activeLabel, setActiveLabel] = React.useState('');
   const [selectedDate, handleDateChange] = useState(new Date());
   const [description, setDescription] = React.useState('');
   const [color, setColor] = React.useState('');
@@ -159,14 +162,25 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <InputLabel shrink>Category</InputLabel>
-            <Select fullWidth defaultValue="None" id="grouped-select">
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <ListSubheader>Category 1</ListSubheader>
-              <MenuItem value={1}>Option 1</MenuItem>
-              <MenuItem value={2}>Option 2</MenuItem>
-              <ListSubheader>Category 2</ListSubheader>
+            <Select
+              fullWidth
+              defaultValue="None"
+              id="grouped-select"
+              value={activeLabel}
+              onChange={(e) => {
+                setActiveLabel(e.target.value);
+              }}
+            >
+              {Object.entries(labels).map(([key, values]) => (
+                <span key={key}>
+                  <ListSubheader>{key}</ListSubheader>
+                  {values.map((v) => (
+                    <MenuItem value={v}>{v}</MenuItem>
+                  ))}
+                </span>
+              ))}
+
+              {/* <ListSubheader>Category 2</ListSubheader>
               <MenuItem value={3}>Option 3</MenuItem>
               <MenuItem value={4}>Option 4</MenuItem>
 
@@ -175,7 +189,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
               <MenuItem value={6}>Option 2</MenuItem>
               <ListSubheader>Category 2</ListSubheader>
               <MenuItem value={7}>Option 3</MenuItem>
-              <MenuItem value={8}>Option 4</MenuItem>
+              <MenuItem value={8}>Option 4</MenuItem> */}
             </Select>
           </Grid>
           <Grid item xs={12}>
@@ -197,9 +211,9 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
         </Grid>
         <div className={style.btns}>
           <Button
-            onClick={async () => {
+            onClick={() => {
               if (description) {
-                await addMarker({
+                addMarker({
                   name,
                   description,
                   entryType,
@@ -208,6 +222,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                     : draggableMarkerPosition,
                   lostOrFoundAt: selectedDate.toUTCString(),
                   color,
+                  labels,
                 });
                 showAlert({
                   msg: 'Entry created successfully!',

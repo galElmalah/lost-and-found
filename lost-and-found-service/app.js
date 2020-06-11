@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const indexRouter = require('./routes/index');
+const miscsRouter = require('./routes/index');
 const entriesRouter = require('./routes/items');
 const DB = require('./model/DB');
 const config = require('./config');
@@ -16,6 +16,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', miscsRouter);
 
 app.use('/items', entriesRouter);
 
