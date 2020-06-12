@@ -6,9 +6,27 @@ export const MarkersProvider = ({ children }) => {
   const [initialPosition, setInitialPosition] = useState([0, 0]);
   const [draggableMarkerPosition, setDraggableMarker] = useState(null);
   const [center, setCenter] = useState(null);
-  const { data: markers, setData: setMarkers } = useApi('/items', {
-    initialData: [],
-  });
+  const { data: markers, setData: setMarkers, callApi: getMarkers } = useApi(
+    '/items',
+    {
+      initialData: [],
+    }
+  );
+  console.log(markers);
+  useEffect(() => {
+    const id = setInterval(() => {
+      getMarkers().then(({ data: cureentMakrers }) => {
+        const newMarkers = cureentMakrers.filter((m) => {
+          return !markers.some((marker) => marker._id === m._id);
+        });
+        console.log({ newMarkers });
+        if (newMarkers.length) {
+          setMarkers((p) => [...p, ...newMarkers]);
+        }
+      });
+    }, 7000);
+    return () => clearInterval(id);
+  }, [markers]);
 
   const { callApi } = useApi('/items', {
     method: 'post',

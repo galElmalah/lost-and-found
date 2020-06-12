@@ -79,7 +79,7 @@ const CustomMarker = ({
     position: 'relative',
     top: '4px',
   };
-  console.log(rest);
+
   return (
     <Marker
       key={_id}
