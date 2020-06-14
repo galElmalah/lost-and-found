@@ -51,7 +51,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   if (!req.user.userId) {
     return res
-      .statusCode(403)
+      .status(403)
       .send({ message: 'You must be logged in you stupid fuck' });
   }
 
@@ -80,5 +80,16 @@ router.post('/', async (req, res, next) => {
   entry = await DB.mapEntries().getById(entry._id);
   res.status(201).send(entry);
 });
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    let entry = await DB.mapEntries().delete(req.params.id);
+    res.status(200).send(req.params.id)
+  }
+  catch (e) {
+    res.status(200).send(req.params.id)
+  }
+});
+
 
 module.exports = router;

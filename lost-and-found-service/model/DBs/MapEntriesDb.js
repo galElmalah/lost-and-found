@@ -102,4 +102,9 @@ module.exports.MapEntriesDb = class MapEntryDb {
     });
     return mapEntry.save();
   }
+
+  static delete(itemID) {
+    return MapEntryModel.findByIdAndRemove( itemID );
+  }
+
 };
