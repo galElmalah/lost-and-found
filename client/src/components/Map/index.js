@@ -96,15 +96,19 @@ const CustomMarker = ({
             ::{location}
           </p>
           <p className={style.informationItem}>
+            <span>Name:</span>
+            {name}
+          </p>
+          <p className={style.informationItem}>
             <span>Date:</span>
-            {lostOrFoundAt}
+            {lostOrFoundAt.substring(0,10)}
           </p>
           <p className={style.informationItem}>
             <span>Category:</span>
             {labels.join(', ')}
           </p>
           <p className={style.informationItem}>
-            <span>By:</span>Zeitoun Yoel
+          <span>By:</span>{rest.reporter.name}
           </p>
           {color && (
             <p className={style.informationItem}>
