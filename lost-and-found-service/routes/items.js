@@ -87,9 +87,18 @@ router.delete('/:id', async (req, res, next) => {
     res.status(200).send(req.params.id)
   }
   catch (e) {
-    res.status(200).send(req.params.id)
+    res.status(403).send(req.params.id)
   }
 });
 
-
+router.put('/:id', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    let entry = await DB.mapEntries().updateItem(req.params.id, req.body.item);
+    res.status(200).send(req.params.id)
+  }
+  catch (e) {
+    res.status(403).send(req.params.id)
+  }
+});
 module.exports = router;
