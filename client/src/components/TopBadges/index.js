@@ -5,6 +5,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { DrawerContext, drawers } from '../Drawer';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 export const TopBadges = () => {
   const { setOpenDrawer } = React.useContext(DrawerContext);
@@ -28,6 +29,16 @@ export const TopBadges = () => {
       </Badge>
       <Badge color="secondary" badgeContent={3} className={style.item}>
         <MailIcon color="action" />
+      </Badge>
+      <Badge
+        color="secondary"
+        badgeContent={3}
+        className={style.item}
+        onClick={() => {
+          setOpenDrawer(drawers.SETTINGS);
+        }}
+      >
+        <AccountCircleIcon color="action" />
       </Badge>
     </div>
   );
