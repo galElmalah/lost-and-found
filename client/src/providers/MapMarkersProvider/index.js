@@ -12,7 +12,7 @@ export const MarkersProvider = ({ children }) => {
       initialData: [],
     }
   );
-  console.log(markers);
+
   useEffect(() => {
     const id = setInterval(() => {
       getMarkers().then(({ data: cureentMakrers }) => {
@@ -59,6 +59,11 @@ export const MarkersProvider = ({ children }) => {
     }
   };
 
+  const refreshMarkers = () => {
+    return getMarkers().then(({ data: cureentMakrers }) => {
+      setMarkers(cureentMakrers);
+    });
+  };
   const addMarker = (marker) => {
     return callApi({ item: marker }).then(({ data }) => {
       setMarkers((_markers) => [..._markers, ...data]);
@@ -85,6 +90,7 @@ export const MarkersProvider = ({ children }) => {
         disableDraggableMarker,
         setCenter,
         center,
+        refreshMarkers,
       }}
     >
       {children}

@@ -31,12 +31,14 @@ export const useApi = (endpoint, options = defaultOptions) => {
   const _data = dataMixer(optionsData, userDetails);
 
   const callApi = useCallback(
-    (passedData, url) =>
-      Axios.request({
-        url: url || getEndpoint(endpoint, method, userDetails.googleId),
+    (passedData, url) => {
+      console.log(url);
+      return Axios.request({
+        url: getEndpoint(url || endpoint, method, userDetails.googleId),
         method,
         data: passedData ? dataMixer(passedData, userDetails) : _data,
-      }),
+      });
+    },
     [method, endpoint, _data, userDetails]
   );
 

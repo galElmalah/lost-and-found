@@ -25,3 +25,22 @@
   align-items: flex-start;
   margin-bottom: 10px;
 }
+
+.settingsPanel {
+  min-width: 50vw;
+  background: white;
+  padding: 20px 15px;
+}
+
+.userDetails {
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+.avatar {
+  margin-right: 10px;
+  background: rgb(20, 125, 218) !important;
+}
+.editIcon {
+  margin-right: 10px;
+}
