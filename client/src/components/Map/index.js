@@ -19,6 +19,7 @@ export const Map = () => {
     draggableMarkerPosition,
     updateDraggableMarker,
     refmarker,
+    tileUrl,
   } = useContext(MarkersContext);
   const { userDetails } = useContext(UserDetailsContext);
   if (!userDetails.name) {
@@ -38,10 +39,7 @@ export const Map = () => {
         zoom={12}
         dragging={true}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
+        <TileLayer url={tileUrl} />
         {markers.map(CustomMarker)}
         {draggableMarkerPosition && (
           <Marker
@@ -101,14 +99,15 @@ const CustomMarker = ({
           </p>
           <p className={style.informationItem}>
             <span>Date:</span>
-            {lostOrFoundAt.substring(0,10)}
+            {lostOrFoundAt.substring(0, 10)}
           </p>
           <p className={style.informationItem}>
             <span>Category:</span>
             {labels.join(', ')}
           </p>
           <p className={style.informationItem}>
-          <span>By:</span>{rest.reporter.name}
+            <span>By:</span>
+            {rest.reporter.name}
           </p>
           {color && (
             <p className={style.informationItem}>

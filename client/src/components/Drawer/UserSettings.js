@@ -21,6 +21,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useApi } from '../../customHooks/useApi';
 import Chip from '@material-ui/core/Chip';
 import { EditItemModal } from '../ActionsBar/EditItem';
+import { tiles } from '../../providers/MapMarkersProvider/markersConfig';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +33,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const UserSettingsPanel = ({ showAlert }) => {
-  const { markers, setCenter, refreshMarkers } = useContext(MarkersContext);
+  const { markers, setCenter, refreshMarkers, tileUrl, setTile } = useContext(
+    MarkersContext
+  );
   const { userDetails } = useContext(UserDetailsContext);
   const [openPanels, setOpenPanels] = useState({});
   const [activeId, setActiveId] = useState({});
@@ -59,9 +65,12 @@ export const UserSettingsPanel = ({ showAlert }) => {
   const isPanelOpen = (key) => openPanels[key];
   const classes = useStyles();
 
+  const handleRadioChange = (e) => {
+    setTile(e.target.value);
+  };
   const getUsersMarkers = () =>
     markers.filter((m) => m.reporter.id === userDetails.googleId);
-
+  console.log(tileUrl);
   return (
     <div className={style.settingsPanel}>
       <div className={style.userDetails}>
@@ -85,8 +94,16 @@ export const UserSettingsPanel = ({ showAlert }) => {
         </ListItem>
         <Collapse in={isPanelOpen('map_settings')} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button>
-              <ListItemText primary="Starred" />
+            <ListItem>
+              <RadioGroup value={tileUrl} onChange={handleRadioChange}>
+                {tiles.map((t) => (
+                  <FormControlLabel
+                    value={t.url}
+                    control={<Radio />}
+                    label={t.name}
+                  />
+                ))}
+              </RadioGroup>
             </ListItem>
           </List>
         </Collapse>

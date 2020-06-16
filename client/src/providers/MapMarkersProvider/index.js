@@ -1,9 +1,12 @@
 import React, { createContext, useState, useEffect, useRef } from 'react';
 import { useApi } from '../../customHooks/useApi';
+import { tiles } from './markersConfig';
+
 export const MarkersContext = createContext();
 
 export const MarkersProvider = ({ children }) => {
   const [initialPosition, setInitialPosition] = useState([0, 0]);
+  const [tileUrl, setTile] = useState(tiles[0].url);
   const [draggableMarkerPosition, setDraggableMarker] = useState(null);
   const [center, setCenter] = useState(null);
   const { data: markers, setData: setMarkers, callApi: getMarkers } = useApi(
@@ -92,6 +95,8 @@ export const MarkersProvider = ({ children }) => {
         setCenter,
         center,
         refreshMarkers,
+        tileUrl,
+        setTile,
       }}
     >
       {children}

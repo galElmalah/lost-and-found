@@ -32,7 +32,6 @@ export const TopBadges = () => {
       </Badge>
       <Badge
         color="secondary"
-        badgeContent={3}
         className={style.item}
         onClick={() => {
           setOpenDrawer(drawers.SETTINGS);
