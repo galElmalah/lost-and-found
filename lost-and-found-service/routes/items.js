@@ -63,7 +63,6 @@ router.post('/', async (req, res, next) => {
   let entry = await DB.mapEntries().add(req.body.item, req.user);
   try {
     const matches = await findMatches(entry);
-    console.log('lollllll', { matches });
     await Promise.all([
       DB.mapEntries().updateMatchesByIds({
         matches,
@@ -92,10 +91,12 @@ router.delete('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    console.log(req.body);
-    let entry = await DB.mapEntries().updateItem(req.params.id, req.body.item);
+    const { user, ...item } = req.body;
+    let entry = await DB.mapEntries().updateItem(req.params.id, item);
+    console.log({ entry });
     res.status(200).send(req.params.id);
   } catch (e) {
+    console.log(e);
     res.status(403).send(req.params.id);
   }
 });

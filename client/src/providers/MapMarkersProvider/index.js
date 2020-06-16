@@ -61,6 +61,7 @@ export const MarkersProvider = ({ children }) => {
 
   const refreshMarkers = () => {
     return getMarkers().then(({ data: cureentMakrers }) => {
+      console.log({ cureentMakrers });
       setMarkers(cureentMakrers);
     });
   };

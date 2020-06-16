@@ -108,7 +108,6 @@ module.exports.MapEntriesDb = class MapEntryDb {
   }
 
   static updateItem(itemID, item) {
-    return MapEntryModel.findByIdAndUpdate( itemID ,
-       item  );
+    return MapEntryModel.findByIdAndUpdate(itemID, item);
   }
 };

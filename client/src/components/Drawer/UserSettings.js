@@ -46,6 +46,7 @@ export const UserSettingsPanel = ({ showAlert }) => {
   };
 
   const handleEditClick = (id) => () => {
+    console.log(id);
     setActiveId(id);
   };
   const togglePanel = (key) => () => {
@@ -108,6 +109,14 @@ export const UserSettingsPanel = ({ showAlert }) => {
           <List component="div" disablePadding>
             {getUsersMarkers().map((m) => (
               <ListItem button>
+                <EditItemModal
+                  handleClose={() => {
+                    setActiveId(null);
+                  }}
+                  id={m._id}
+                  isOpen={activeId === m._id}
+                  entryType={m.entryType}
+                />
                 <Chip
                   className={`${style.chip} ${
                     m.entryType === 'found' ? style.found : ''
@@ -123,14 +132,8 @@ export const UserSettingsPanel = ({ showAlert }) => {
                   className={classes.root}
                   onClick={handleEditClick(m._id)}
                 >
-                  {activeId === m._id && (
-                    <EditItemModal
-                      handleClose={() => setActiveId('')}
-                      id={m._id}
-                      isOpen={activeId === m._id}
-                      entryType={m.entryType}
-                    />
-                  )}
+                  {console.log(activeId === m._id, activeId, m._id)}
+
                   <EditIcon />
                 </Fab>
                 <Fab

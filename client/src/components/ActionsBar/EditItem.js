@@ -24,12 +24,7 @@ import { useApi } from '../../customHooks/useApi';
 import { TransitionsModal } from '.';
 import { AlertContext } from '../../App';
 
-export const EditItemModal = ({
-  isOpen,
-  handleClose = () => {},
-  entryType,
-  id,
-}) => (
+export const EditItemModal = ({ isOpen, handleClose, entryType, id }) => (
   <TransitionsModal isOpen={isOpen} handleClose={handleClose}>
     <EditItem
       id={id}
@@ -53,6 +48,7 @@ export const EditItem = ({ id, entryType, handleClose, title }) => {
     disableDraggableMarker,
     addMarker,
     initialPosition,
+    refreshMarkers,
     draggableMarkerPosition,
   } = useContext(MarkersContext);
   const [useCurrentLocation, setUseCurrentLocation] = useState(
@@ -120,7 +116,6 @@ export const EditItem = ({ id, entryType, handleClose, title }) => {
           <Button
             onClick={() => {
               enableDraggableMarker();
-              handleClose();
             }}
           >
             Select a location using the map
@@ -172,19 +167,20 @@ export const EditItem = ({ id, entryType, handleClose, title }) => {
           <Button
             onClick={() => {
               if (description) {
-                updateEntry(
-                  {
-                    ...entry,
-                    name,
-                    description,
-                    lostOrFoundAt: selectedDate.toUTCString
-                      ? selectedDate.toUTCString()
-                      : selectedDate,
-                    color,
-                    labels: [activeLabel],
-                  },
-                  `/items/${id}`
+                const newEntry = {
+                  ...entry,
+                  name,
+                  description,
+                  lostOrFoundAt: selectedDate.toUTCString
+                    ? selectedDate.toUTCString()
+                    : selectedDate,
+                  color,
+                  labels: [activeLabel],
+                };
+                updateEntry(newEntry, `/items/${id}`).then(() =>
+                  refreshMarkers()
                 );
+
                 handleClose();
               } else {
                 showAlert({
