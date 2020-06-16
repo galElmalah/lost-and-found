@@ -44,3 +44,10 @@
 .editIcon {
   margin-right: 10px;
 }
+
+.chip {
+  margin-right: 5px !important;
+  &.found {
+    background-color: rgb(27, 199, 70);
+  }
+}

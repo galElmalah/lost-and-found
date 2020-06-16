@@ -38,6 +38,14 @@ export function CustomizedSnackbar({ open, setOpen }) {
   );
 }
 
+export const AlertContext = React.createContext({ showAlert: () => {} });
+const AlertProvider = ({ children, showAlert }) => {
+  return (
+    <AlertContext.Provider value={{ showAlert }}>
+      {children}
+    </AlertContext.Provider>
+  );
+};
 function App() {
   const [open, setOpen] = React.useState({ msg: null });
 
@@ -48,11 +56,13 @@ function App() {
         path="/map"
         render={() => (
           <div className="App">
-            <TopBadges />
-            <Drawer />
-            <CustomizedSnackbar open={open} setOpen={setOpen} />
-            <ActionsBar showAlert={setOpen} />
-            <Map />
+            <AlertProvider showAlert={setOpen}>
+              <TopBadges />
+              <Drawer showAlert={setOpen} />
+              <CustomizedSnackbar open={open} setOpen={setOpen} />
+              <ActionsBar showAlert={setOpen} />
+              <Map />
+            </AlertProvider>
           </div>
         )}
       />

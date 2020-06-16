@@ -19,6 +19,8 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useApi } from '../../customHooks/useApi';
+import Chip from '@material-ui/core/Chip';
+import { EditItemModal } from '../ActionsBar/EditItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,20 +28,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const UserSettingsPanel = () => {
+export const UserSettingsPanel = ({ showAlert }) => {
   const { markers, setCenter, refreshMarkers } = useContext(MarkersContext);
   const { userDetails } = useContext(UserDetailsContext);
   const [openPanels, setOpenPanels] = useState({});
+  const [activeId, setActiveId] = useState({});
   const { callApi } = useApi('', { method: 'delete', invokeManually: true });
 
   const handleDeleteClick = (id) => () => {
     callApi({}, `/items/${id}`).then(() => {
       refreshMarkers();
+      showAlert({
+        msg: `Successfully deleted ${id}`,
+        type: 'success',
+      });
     });
   };
 
   const handleEditClick = (id) => () => {
-    // open modal with relevant data
+    setActiveId(id);
   };
   const togglePanel = (key) => () => {
     if (openPanels[key]) {
@@ -101,13 +108,29 @@ export const UserSettingsPanel = () => {
           <List component="div" disablePadding>
             {getUsersMarkers().map((m) => (
               <ListItem button>
-                <ListItemText primary="Starred" />
+                <Chip
+                  className={`${style.chip} ${
+                    m.entryType === 'found' ? style.found : ''
+                  }`}
+                  label={m.entryType.toUpperCase()}
+                  color={m.entryType === 'found' ? 'primary' : 'secondary'}
+                />
+                <ListItemText primary={m._id} />
                 <Fab
                   size="small"
                   color="primary"
                   aria-label="edit"
                   className={classes.root}
+                  onClick={handleEditClick(m._id)}
                 >
+                  {activeId === m._id && (
+                    <EditItemModal
+                      handleClose={() => setActiveId('')}
+                      id={m._id}
+                      isOpen={activeId === m._id}
+                      entryType={m.entryType}
+                    />
+                  )}
                   <EditIcon />
                 </Fab>
                 <Fab

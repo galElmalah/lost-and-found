@@ -55,7 +55,7 @@ router.get('/:id', async (req, res, next) => {
       .send({ message: 'You must be logged in you stupid fuck' });
   }
 
-  const entries = await DB.mapEntries().getByUserId(req.user.userId);
+  const entries = await DB.mapEntries().getById(req.params.id);
   res.send(entries);
 });
 
@@ -84,21 +84,19 @@ router.post('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     let entry = await DB.mapEntries().delete(req.params.id);
-    res.status(200).send(req.params.id)
-  }
-  catch (e) {
-    res.status(403).send(req.params.id)
+    res.status(200).send(req.params.id);
+  } catch (e) {
+    res.status(403).send(req.params.id);
   }
 });
 
 router.put('/:id', async (req, res, next) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     let entry = await DB.mapEntries().updateItem(req.params.id, req.body.item);
-    res.status(200).send(req.params.id)
-  }
-  catch (e) {
-    res.status(403).send(req.params.id)
+    res.status(200).send(req.params.id);
+  } catch (e) {
+    res.status(403).send(req.params.id);
   }
 });
 module.exports = router;

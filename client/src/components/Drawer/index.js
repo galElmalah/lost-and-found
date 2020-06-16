@@ -24,12 +24,12 @@ export const DrawerProvider = ({ children }) => {
   );
 };
 
-export const Drawer = () => {
+export const Drawer = ({ showAlert }) => {
   const { openDrawer, setOpenDrawer } = useContext(DrawerContext);
   const drawersMapping = {
-    [drawers.FILTER]: () => <FilterList />,
-    [drawers.MATCH]: () => <UserMatchesList />,
-    [drawers.SETTINGS]: () => <UserSettingsPanel />,
+    [drawers.FILTER]: () => <FilterList showAlert={showAlert} />,
+    [drawers.MATCH]: () => <UserMatchesList showAlert={showAlert} />,
+    [drawers.SETTINGS]: () => <UserSettingsPanel showAlert={showAlert} />,
   };
   return (
     <MDrawer

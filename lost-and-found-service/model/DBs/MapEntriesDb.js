@@ -5,7 +5,7 @@ const kmToMiles = (distanceInKm) => distanceInKm / 1.609;
 const EARTH_RADIUS = 3963.2;
 module.exports.MapEntriesDb = class MapEntryDb {
   static getById(id) {
-    return MapEntryModel.find(id);
+    return MapEntryModel.findById(id);
   }
 
   static getAll() {

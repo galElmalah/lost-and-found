@@ -66,7 +66,7 @@ export const MarkersProvider = ({ children }) => {
   };
   const addMarker = (marker) => {
     return callApi({ item: marker }).then(({ data }) => {
-      setMarkers((_markers) => [..._markers, ...data]);
+      data && setMarkers((_markers) => [..._markers, data]);
     });
   };
 
