@@ -1,4 +1,13 @@
 const geoLib = require('geolib');
+const stringSimilarity = require('string-similarity');
+
+const calcDocDistanceScore = (desc1 = '', desc2 = '') => {
+  console.log({ desc1, desc2 });
+  if (!desc1 || !desc2) {
+    return 0;
+  }
+  return stringSimilarity.compareTwoStrings(desc1, desc2) * 10;
+};
 
 const metersToKm = (distanceInMeters) => distanceInMeters / 1000;
 const calcDistanceScore = (l1, l2) => {
@@ -43,11 +52,16 @@ module.exports.calcMatchScore = (originEntry, entry) => {
     entry.labels
   );
   const colorScore = calcColorMatchScore(originEntry.color, entry.color);
-  console.log({ dateScore });
-  console.log(
-    (distanceScore + dateScore + labelsMatchStrengthScore + colorScore).toFixed(
-      1
-    )
+  const docsDescriptionDistanceScore = calcDocDistanceScore(
+    originEntry.description,
+    entry.description
   );
-  return distanceScore + dateScore + labelsMatchStrengthScore + colorScore;
+
+  return (
+    distanceScore +
+    dateScore +
+    labelsMatchStrengthScore +
+    colorScore +
+    docsDescriptionDistanceScore
+  ).toFixed(1);
 };

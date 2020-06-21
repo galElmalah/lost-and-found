@@ -41,6 +41,7 @@ module.exports.MapEntriesDb = class MapEntryDb {
         createdAt: 1,
         labels: 1,
         color: 1,
+        description: 1,
         _d: 1,
       }
     );
