@@ -98,6 +98,7 @@ module.exports.MapEntriesDb = class MapEntryDb {
       reporter: {
         id: user.googleId,
         name: user.name,
+        email: user.email,
       },
     });
     return mapEntry.save();

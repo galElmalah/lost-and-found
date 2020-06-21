@@ -36,17 +36,12 @@ export const ActionsBar = ({ showAlert }) => {
         handleClose={() => setOpenModal(null)}
       />
 
-      <ButtonGroup
-        variant="contained"
-        aria-label="outlined primary button group"
-      >
-        <ButtonStyle text="found" clickHandler={() => setOpenModal('found')}>
-          {' '}
-        </ButtonStyle>
-        <ButtonStyle text="lost" clickHandler={() => setOpenModal('lost')}>
-          {' '}
-        </ButtonStyle>
-      </ButtonGroup>
+      <ButtonStyle text="found" clickHandler={() => setOpenModal('found')}>
+        {' '}
+      </ButtonStyle>
+      <ButtonStyle text="lost" clickHandler={() => setOpenModal('lost')}>
+        {' '}
+      </ButtonStyle>
     </div>
   );
 };

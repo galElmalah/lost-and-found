@@ -22,7 +22,6 @@ export const MarkersProvider = ({ children }) => {
         const newMarkers = cureentMakrers.filter((m) => {
           return !markers.some((marker) => marker._id === m._id);
         });
-        console.log({ newMarkers });
         if (newMarkers.length) {
           setMarkers((p) => [...p, ...newMarkers]);
         }
@@ -64,7 +63,6 @@ export const MarkersProvider = ({ children }) => {
 
   const refreshMarkers = () => {
     return getMarkers().then(({ data: cureentMakrers }) => {
-      console.log({ cureentMakrers });
       setMarkers(cureentMakrers);
     });
   };

@@ -4,4 +4,5 @@ const Schema = mongoose.Schema;
 module.exports.MapEntrySchema = new Schema({
   id: { type: String, required: true },
   name: { type: String, required: true },
+  email: { type: String, required: true },
 });

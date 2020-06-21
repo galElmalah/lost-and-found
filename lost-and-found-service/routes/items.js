@@ -24,7 +24,9 @@ const findMatches = async (entry) => {
     location: _entry.location || [],
   });
 
-  return entriesWithinRange.map(toMatchShape);
+  hasPositiveScore = (e) => e.score > 0;
+
+  return entriesWithinRange.map(toMatchShape).filter(hasPositiveScore);
 };
 
 router.get('/', async (req, res, next) => {

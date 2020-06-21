@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core';
 import { ColorPicker } from '../../Utility';
 import { UserDetailsContext } from '../../../providers/UserDetailsProvider/index';
+import { DrawerContext } from '..';
 
 const toggleFilters = [
   {
@@ -36,20 +37,66 @@ const toggleFilters = [
     title: 'my entries',
     subtitle: 'show only entries reported by me',
   },
-  {
-    value: 'MATCHES',
-    title: 'my matches',
-    subtitle: 'show only entries i matches with',
-  },
 ];
 
 export const FilterList = React.memo(
   () => {
+    const {
+      incBadgeCount,
+      decBadgeCount,
+      filterState,
+      setFilterState,
+    } = React.useContext(DrawerContext);
     const { userDetails, labels } = React.useContext(UserDetailsContext);
     const { setMarkers } = React.useContext(MarkersContext);
-    const [toggels, setToggels] = React.useState({});
-    const [activeLabels, setActiveLabels] = React.useState([]);
-    const [range, setRange] = React.useState(15);
+    const [toggels, setToggels] = React.useState(filterState.toggels || {});
+    const [activeLabels, setActiveLabels] = React.useState(
+      filterState.activeLabels || []
+    );
+    const [range, setRange] = React.useState(filterState.range || 15);
+    React.useEffect(() => {
+      if (
+        filterState.toggels &&
+        Object.keys(filterState.toggels) > Object.keys(toggels)
+      ) {
+        decBadgeCount('filter');
+      }
+      if (
+        filterState.toggels &&
+        Object.keys(filterState.toggels) < Object.keys(toggels)
+      ) {
+        incBadgeCount('filter');
+      }
+
+      setFilterState((p) => {
+        return { ...p, toggels };
+      });
+    }, [toggels]);
+    React.useEffect(() => {
+      if (
+        filterState.activeLabels &&
+        filterState.activeLabels.length > activeLabels.length &&
+        activeLabels.length === 0
+      ) {
+        decBadgeCount('filter');
+      }
+      if (
+        filterState.activeLabels &&
+        filterState.activeLabels.length < activeLabels.length &&
+        activeLabels.length === 1
+      ) {
+        console.log('shit');
+        incBadgeCount('filter');
+      }
+      setFilterState((p) => {
+        return { ...p, activeLabels };
+      });
+    }, [activeLabels]);
+    React.useEffect(() => {
+      setFilterState((p) => {
+        return { ...p, range };
+      });
+    }, [range]);
     const ref = React.useRef(
       throttle((query) => {
         Axios.get(`http://localhost:3001/items${query}`).then(({ data }) => {
@@ -78,7 +125,7 @@ export const FilterList = React.memo(
 
     return (
       <List className={'slide-filter-bar'}>
-        <ListSubheader>Range Selector (radius)</ListSubheader>
+        <ListSubheader>Range Selector (radius in km)</ListSubheader>
 
         <ListItem>
           <Slider
@@ -86,7 +133,7 @@ export const FilterList = React.memo(
             min={0}
             step={0.1}
             max={200}
-            valueLabelFormat={(v) => v + 'km'}
+            valueLabelFormat={(v) => v}
             scale={(x) => x ** 10}
             onChange={(e, nv) => setRange(nv)}
             valueLabelDisplay="auto"
@@ -148,6 +195,7 @@ export const FilterList = React.memo(
             onChange={(e, selected) =>
               setActiveLabels(selected.map((_) => _.title))
             }
+            value={activeLabels.map((l) => ({ title: l }))}
             options={Object.values(labels)
               .reduce((acc, n) => [...acc, ...n], [])
               .map((v) => ({ title: v }))}
