@@ -9,11 +9,15 @@ const calcDistanceScore = (l1, l2) => {
 };
 
 const calcDateScore = (d1, d2) => {
-  const score = Math.floor((Date.parse(d1) - Date.parse(d2)) / 86400000);
+  console.log({ d1, d2 });
+  const score = Math.floor(
+    Math.abs(Date.parse(d1) - Date.parse(d2)) / 86400000
+  );
+
   if (score > 15 || score < 0) {
     return 0;
   }
-  return score;
+  return 15 - score;
 };
 
 const calcLabelsMatchStrengthScore = (l1, l2) => {
@@ -39,6 +43,11 @@ module.exports.calcMatchScore = (originEntry, entry) => {
     entry.labels
   );
   const colorScore = calcColorMatchScore(originEntry.color, entry.color);
-
+  console.log({ dateScore });
+  console.log(
+    (distanceScore + dateScore + labelsMatchStrengthScore + colorScore).toFixed(
+      1
+    )
+  );
   return distanceScore + dateScore + labelsMatchStrengthScore + colorScore;
 };
