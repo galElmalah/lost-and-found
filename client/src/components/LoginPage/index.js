@@ -20,9 +20,9 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className="wrapper fadeInDown">
+    <div className="wrapper fadeIn">
       <div id="formContent">
-        <h2 className="active"> Sign In </h2>
+        <h2 className="active"> LOST AND SPOTTINGS - Sign In </h2>
         <form>
           <Container maxWidth="sm">
             <p>Login via your google account</p>
@@ -74,6 +74,18 @@ export const LoginPage = () => {
           </Container>
         </form>
       </div>
+      <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
   );
 };

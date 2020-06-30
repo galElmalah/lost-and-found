@@ -20,6 +20,7 @@ import {
 import { ColorPicker } from '../../Utility';
 import { UserDetailsContext } from '../../../providers/UserDetailsProvider/index';
 import { DrawerContext } from '..';
+import { DrawersTitle } from '../UserSettings';
 
 const toggleFilters = [
   {
@@ -124,98 +125,101 @@ export const FilterList = React.memo(
     }, [toggels, activeLabels, range]);
 
     return (
-      <List className={'slide-filter-bar'}>
-        <ListSubheader>Range Selector (radius in km)</ListSubheader>
+      <div className={style.filtersCon}>
+        <DrawersTitle pageName="Filters" />
+        <List className={'slide-filter-bar'}>
+          <ListSubheader>Range Selector (radius in km)</ListSubheader>
 
-        <ListItem>
-          <Slider
-            value={range}
-            min={0}
-            step={0.1}
-            max={200}
-            valueLabelFormat={(v) => v}
-            scale={(x) => x ** 10}
-            onChange={(e, nv) => setRange(nv)}
-            valueLabelDisplay="auto"
-            aria-labelledby="non-linear-slider"
-          />
-        </ListItem>
+          <ListItem>
+            <Slider
+              value={range}
+              min={0}
+              step={0.1}
+              max={200}
+              valueLabelFormat={(v) => v}
+              scale={(x) => x ** 10}
+              onChange={(e, nv) => setRange(nv)}
+              valueLabelDisplay="auto"
+              aria-labelledby="non-linear-slider"
+            />
+          </ListItem>
 
-        <ListSubheader>Toggle Filters</ListSubheader>
-        {toggleFilters.map(({ title, subtitle, value }) => (
-          <>
-            <ListItem dense button>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={toggels[value]}
-                  disableRipple
-                  onChange={() => {
-                    if (value === 'USER_ENTRIES') {
+          <ListSubheader>Toggle Filters</ListSubheader>
+          {toggleFilters.map(({ title, subtitle, value }) => (
+            <>
+              <ListItem dense button>
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={toggels[value]}
+                    disableRipple
+                    onChange={() => {
+                      if (value === 'USER_ENTRIES') {
+                        if (toggels[value]) {
+                          setToggels((prevToggels) => ({
+                            ...prevToggels,
+                            [value]: prevToggels[value]
+                              ? false
+                              : userDetails.googleId,
+                          }));
+                          return;
+                        }
+                        setToggels((prevToggels) => ({
+                          ...prevToggels,
+                          [value]: userDetails.googleId,
+                        }));
+                        return;
+                      }
                       if (toggels[value]) {
                         setToggels((prevToggels) => ({
                           ...prevToggels,
-                          [value]: prevToggels[value]
-                            ? false
-                            : userDetails.googleId,
+                          [value]: !prevToggels[value],
                         }));
                         return;
                       }
                       setToggels((prevToggels) => ({
                         ...prevToggels,
-                        [value]: userDetails.googleId,
+                        [value]: true,
                       }));
-                      return;
-                    }
-                    if (toggels[value]) {
-                      setToggels((prevToggels) => ({
-                        ...prevToggels,
-                        [value]: !prevToggels[value],
-                      }));
-                      return;
-                    }
-                    setToggels((prevToggels) => ({
-                      ...prevToggels,
-                      [value]: true,
-                    }));
-                  }}
+                    }}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={title} secondary={subtitle} />
+              </ListItem>
+              <Divider />
+            </>
+          ))}
+          <ListSubheader>Categories</ListSubheader>
+          <ListItem>
+            <Autocomplete
+              multiple
+              className={style.autocomplete}
+              id="tags-outlined"
+              onChange={(e, selected) =>
+                setActiveLabels(selected.map((_) => _.title))
+              }
+              value={activeLabels.map((l) => ({ title: l }))}
+              options={Object.values(labels)
+                .reduce((acc, n) => [...acc, ...n], [])
+                .map((v) => ({ title: v }))}
+              getOptionLabel={(option) => option.title}
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="filterSelectedOptions"
+                  placeholder="categories"
                 />
-              </ListItemIcon>
-              <ListItemText primary={title} secondary={subtitle} />
-            </ListItem>
-            <Divider />
-          </>
-        ))}
-        <ListSubheader>Categories</ListSubheader>
-        <ListItem>
-          <Autocomplete
-            multiple
-            className={style.autocomplete}
-            id="tags-outlined"
-            onChange={(e, selected) =>
-              setActiveLabels(selected.map((_) => _.title))
-            }
-            value={activeLabels.map((l) => ({ title: l }))}
-            options={Object.values(labels)
-              .reduce((acc, n) => [...acc, ...n], [])
-              .map((v) => ({ title: v }))}
-            getOptionLabel={(option) => option.title}
-            filterSelectedOptions
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="outlined"
-                label="filterSelectedOptions"
-                placeholder="categories"
-              />
-            )}
-          />
-        </ListItem>
-        <ListSubheader>Colors</ListSubheader>
-        <ListItem>
-          <ColorPicker />
-        </ListItem>
-      </List>
+              )}
+            />
+          </ListItem>
+          <ListSubheader>Colors</ListSubheader>
+          <ListItem>
+            <ColorPicker />
+          </ListItem>
+        </List>
+      </div>
     );
   },
   () => true

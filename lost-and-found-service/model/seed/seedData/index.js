@@ -1,11 +1,35 @@
 module.exports.mapEntriesSeedData = mapEntriesSeedData = [
   {
-    name: 'example 1',
+    name: 'example 131',
     description: 'A big key with 3 holes',
-    location: [31.78123199999997, 34.7],
+    location: [31.78123199999997, 34.75],
     reporter: { id: 123, name: 'gal', email: 'ask' },
     createdAt: '2020-01-28T09:04:47.000Z',
     entryType: 'lost',
+    labels: ['home', 'keys'],
+
+    color: '#FF6900',
+  },
+  {
+    name: 'example 11',
+    description: 'A big key with 3 holes',
+    location: [31.781231997, 34.72],
+    reporter: { id: 123, name: 'gal', email: 'ask' },
+    createdAt: '2020-01-28T09:04:47.000Z',
+    entryType: 'lost',
+    labels: ['home', 'keys'],
+
+    color: '#FF6900',
+  },
+  {
+    name: 'example 112',
+    description: 'A big key with 3 holes',
+    location: [31.7812389997, 34.7],
+    reporter: { id: 123, name: 'gal', email: 'ask' },
+    createdAt: '2020-01-28T09:04:47.000Z',
+    entryType: 'lost',
+    labels: ['home', 'keys'],
+
     color: '#FF6900',
   },
   {
@@ -15,6 +39,7 @@ module.exports.mapEntriesSeedData = mapEntriesSeedData = [
     reporter: { id: 123, name: 'gal', email: 'ask' },
     createdAt: '2020-06-06T08:12:27.809Z',
     entryType: 'found',
+
     color: '#FF6900',
   },
   {

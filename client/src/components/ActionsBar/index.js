@@ -213,7 +213,7 @@ const ItemForm = ({ entryType, handleClose, title, showAlert }) => {
                       ],
                   lostOrFoundAt: selectedDate.toUTCString(),
                   color,
-                  labels: [activeLabel],
+                  labels: [activeLabel || 'other'],
                 });
                 showAlert({
                   msg: 'Entry created successfully!',
