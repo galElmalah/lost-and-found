@@ -37,7 +37,6 @@ export const UserMatchesList = () => {
 
   const getEntryById = (id) => markers.find((m) => m._id === id);
 
-
   if (!getUserMatches().length) {
     return (
       <div className={style.matches}>
@@ -121,6 +120,18 @@ export const UserMatchesList = () => {
                             Go to match
                           </Button>
                         </div>
+                        <Typography
+                          align="left"
+                          style={{ fontWeight: 'bold', marginTop: '10px' }}
+                        >
+                          Reporter Email
+                        </Typography>
+                        <Typography align="left">
+                          {
+                            getEntryById(match.matchedWithEntryId).reporter
+                              .email
+                          }
+                        </Typography>
                         <Typography
                           align="left"
                           style={{ fontWeight: 'bold', marginTop: '10px' }}
