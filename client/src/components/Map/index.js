@@ -86,17 +86,7 @@ const CustomMarker = ({
     >
       <Popup>
         <span className={style.popoverContainer}>
-          <p className={style.descriptionItem}>
-            {description}
-            <br />
-            ::{_id}
-            <br />
-            ::{location}
-          </p>
-          <p className={style.informationItem}>
-            <span>Name:</span>
-            {name}
-          </p>
+          <p className={style.descriptionItem}>{description}</p>
           <p className={style.informationItem}>
             <span>Date:</span>
             {lostOrFoundAt.substring(0, 10)}

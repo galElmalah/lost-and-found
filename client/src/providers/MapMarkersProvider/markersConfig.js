@@ -39,10 +39,6 @@ export const tiles = [
     name: 'Brush',
     url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.js',
   },
-  {
-    name: 'dark',
-    url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.js',
-  },
 
   {
     name: 'world image',
