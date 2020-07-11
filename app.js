@@ -25,6 +25,7 @@ DB.connect({
   port: config.db.port,
   username: config.db.user,
   password: config.db.password,
+  mongoUri: config.db.uri,
 })
   .then(() =>
     app.listen(config.server.port, () =>

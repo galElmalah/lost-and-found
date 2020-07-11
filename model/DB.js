@@ -15,8 +15,8 @@ module.exports = class DB {
     return UsersDb;
   }
 
-  static connect({ port, user, password }) {
-    return mongoose.connect('mongodb://localhost/test', {
+  static connect({ port, user, password,mongoUri }) {
+    return mongoose.connect(mongoUri, {
       useNewUrlParser: true,
     });
   }
