@@ -14,6 +14,9 @@ module.exports.applyFilters = (queries, entriesInRange) => {
   };
   let filteredEntries = entriesInRange;
   filters.forEach(([activeFilter, val]) => {
+    if (!filtersFns[activeFilter]) {
+      return;
+    }
     filteredEntries = filteredEntries.filter(
       filtersFns[activeFilter](entriesInRange, val)
     );
